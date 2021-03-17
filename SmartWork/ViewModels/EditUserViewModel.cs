@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace SmartWork.ViewModels
+{
+    public class EditUserViewModel
+    {
+        public string Id { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Name")]
+        public string UserName { get; set; }
+
+        [Required]
+        [Display(Name = "Surname")]
+        public string UserSurname { get; set; }
+
+        [Required]
+        [Display(Name = "Middle name")]
+        public string UserMiddleName { get; set; }
+
+        [Required]
+        [Display(Name = "Phone number")]
+        public string PhoneNumber { get; set; }
+    }
+}
