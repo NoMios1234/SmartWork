@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SmartWork.Controllers
+namespace SmartWork.Controllers.API
 {
     [Route("api/[controller]")]
     [ApiController]

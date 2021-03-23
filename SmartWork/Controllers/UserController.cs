@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace SmartWork.Controllers
 {
-    public class UsersController : Controller
+    public class UserController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
         public bool RoleController { get; private set; }
 
-        public UsersController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public UserController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -129,7 +129,7 @@ namespace SmartWork.Controllers
                             }
                         }
                     }
-                }
+                } 
                 return View(model);
             }
             else
