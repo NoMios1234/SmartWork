@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SmartWork.Migrations
 {
-    public partial class Initialmigration : Migration
+    public partial class fixd : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,7 +27,8 @@ namespace SmartWork.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MiddleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -36,6 +37,7 @@ namespace SmartWork.Migrations
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -45,6 +47,21 @@ namespace SmartWork.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Equipment",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    equipmentDesc = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    materialEquipmentId = table.Column<int>(type: "int", nullable: false),
+                    technicalEquipmentId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Equipment", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -153,6 +170,79 @@ namespace SmartWork.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "MaterialEquipment",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    equipmentName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    equipmentCount = table.Column<int>(type: "int", nullable: false),
+                    equipmentDesc = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    available = table.Column<bool>(type: "bit", nullable: false),
+                    roomId = table.Column<int>(type: "int", nullable: false),
+                    Equipmentid = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MaterialEquipment", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_MaterialEquipment_Equipment_Equipmentid",
+                        column: x => x.Equipmentid,
+                        principalTable: "Equipment",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Room",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    roomName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    roomNumber = table.Column<int>(type: "int", nullable: false),
+                    companyName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    temperature = table.Column<int>(type: "int", nullable: false),
+                    light = table.Column<int>(type: "int", nullable: false),
+                    square = table.Column<double>(type: "float", nullable: false),
+                    equipmentId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Room", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Room_Equipment_equipmentId",
+                        column: x => x.equipmentId,
+                        principalTable: "Equipment",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TechnicalEquipment",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    equipmentName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    equipmentCount = table.Column<int>(type: "int", nullable: false),
+                    equipmentDesc = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    available = table.Column<bool>(type: "bit", nullable: false),
+                    roomId = table.Column<int>(type: "int", nullable: false),
+                    Equipmentid = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TechnicalEquipment", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_TechnicalEquipment_Equipment_Equipmentid",
+                        column: x => x.Equipmentid,
+                        principalTable: "Equipment",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -191,6 +281,21 @@ namespace SmartWork.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MaterialEquipment_Equipmentid",
+                table: "MaterialEquipment",
+                column: "Equipmentid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Room_equipmentId",
+                table: "Room",
+                column: "equipmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TechnicalEquipment_Equipmentid",
+                table: "TechnicalEquipment",
+                column: "Equipmentid");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -211,10 +316,22 @@ namespace SmartWork.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "MaterialEquipment");
+
+            migrationBuilder.DropTable(
+                name: "Room");
+
+            migrationBuilder.DropTable(
+                name: "TechnicalEquipment");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Equipment");
         }
     }
 }

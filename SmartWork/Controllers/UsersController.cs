@@ -39,7 +39,6 @@ namespace SmartWork.Controllers
             else
                 return View("../Message/NoRights");
         }
-           
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserViewModel model)
@@ -72,9 +71,9 @@ namespace SmartWork.Controllers
                     }
                 }
                 return View(model);
-            } 
+            }
             else
-                return View("../Message/NoRights");           
+                return View("../Message/NoRights");
         }
 
         public async Task<IActionResult> Edit(string id)

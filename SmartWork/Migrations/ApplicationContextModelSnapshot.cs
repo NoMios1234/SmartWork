@@ -150,6 +150,126 @@ namespace SmartWork.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("SmartWork.Models.Equipment", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("equipmentDesc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("materialEquipmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("technicalEquipmentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Equipment");
+                });
+
+            modelBuilder.Entity("SmartWork.Models.MaterialEquipment", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("Equipmentid")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("available")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("equipmentCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("equipmentDesc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("equipmentName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("roomId")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("Equipmentid");
+
+                    b.ToTable("MaterialEquipment");
+                });
+
+            modelBuilder.Entity("SmartWork.Models.Room", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("companyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("equipmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("light")
+                        .HasColumnType("int");
+
+                    b.Property<string>("roomName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("roomNumber")
+                        .HasColumnType("int");
+
+                    b.Property<double>("square")
+                        .HasColumnType("float");
+
+                    b.Property<int>("temperature")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("equipmentId");
+
+                    b.ToTable("Room");
+                });
+
+            modelBuilder.Entity("SmartWork.Models.TechnicalEquipment", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("Equipmentid")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("available")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("equipmentCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("equipmentDesc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("equipmentName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("roomId")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("Equipmentid");
+
+                    b.ToTable("TechnicalEquipment");
+                });
+
             modelBuilder.Entity("SmartWork.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -273,6 +393,38 @@ namespace SmartWork.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SmartWork.Models.MaterialEquipment", b =>
+                {
+                    b.HasOne("SmartWork.Models.Equipment", null)
+                        .WithMany("materialEquipment")
+                        .HasForeignKey("Equipmentid");
+                });
+
+            modelBuilder.Entity("SmartWork.Models.Room", b =>
+                {
+                    b.HasOne("SmartWork.Models.Equipment", "Equipment")
+                        .WithMany()
+                        .HasForeignKey("equipmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Equipment");
+                });
+
+            modelBuilder.Entity("SmartWork.Models.TechnicalEquipment", b =>
+                {
+                    b.HasOne("SmartWork.Models.Equipment", null)
+                        .WithMany("technicalEquipment")
+                        .HasForeignKey("Equipmentid");
+                });
+
+            modelBuilder.Entity("SmartWork.Models.Equipment", b =>
+                {
+                    b.Navigation("materialEquipment");
+
+                    b.Navigation("technicalEquipment");
                 });
 #pragma warning restore 612, 618
         }

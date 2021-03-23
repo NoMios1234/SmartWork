@@ -96,7 +96,13 @@ namespace SmartWork.Controllers
         public async Task<IActionResult> Index()
         {
             User user = await _userManager.FindByIdAsync(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
-            return View(user);
+            if(user != null)
+            {
+                return View(user);
+            }
+            return
+                RedirectToAction("Login");
+            
         }
         public async Task<IActionResult> Edit(string id)
         {

@@ -12,7 +12,8 @@ namespace SmartWork.Models
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
            : base(options)
         {
-            Database.EnsureCreated();
+           
         }
+        public DbSet<Room> Room { get; set; }
     }
 }

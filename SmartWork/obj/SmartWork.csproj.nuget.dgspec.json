@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Dmitry\\Desktop\\New folder\\newSmartWork\\newSmartWork\\SmartWork.csproj": {}
+    "C:\\Users\\Dmitry\\source\\repos\\SmartWork\\SmartWork\\SmartWork.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Dmitry\\Desktop\\New folder\\newSmartWork\\newSmartWork\\SmartWork.csproj": {
+    "C:\\Users\\Dmitry\\source\\repos\\SmartWork\\SmartWork\\SmartWork.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Dmitry\\Desktop\\New folder\\newSmartWork\\newSmartWork\\SmartWork.csproj",
+        "projectUniqueName": "C:\\Users\\Dmitry\\source\\repos\\SmartWork\\SmartWork\\SmartWork.csproj",
         "projectName": "SmartWork",
-        "projectPath": "C:\\Users\\Dmitry\\Desktop\\New folder\\newSmartWork\\newSmartWork\\SmartWork.csproj",
+        "projectPath": "C:\\Users\\Dmitry\\source\\repos\\SmartWork\\SmartWork\\SmartWork.csproj",
         "packagesPath": "C:\\Users\\Dmitry\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Dmitry\\Desktop\\New folder\\newSmartWork\\newSmartWork\\obj\\",
+        "outputPath": "C:\\Users\\Dmitry\\source\\repos\\SmartWork\\SmartWork\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Dmitry\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,34 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
+            "Microsoft.AspNet.WebApi": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
+            "Microsoft.AspNet.WebApi.Client": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
+            "Microsoft.AspNet.WebApi.Core": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
+            "Microsoft.AspNet.WebApi.Cors": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
+            "Microsoft.AspNet.WebApi.HelpPage": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
+            "Microsoft.AspNet.WebApi.Owin": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
+            "Microsoft.AspNet.WebApi.WebHost": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[5.0.4, )"
@@ -53,6 +81,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[5.0.4, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
             }
           },
           "imports": [
