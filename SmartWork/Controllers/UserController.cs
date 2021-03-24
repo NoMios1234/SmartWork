@@ -50,6 +50,7 @@ namespace SmartWork.Controllers
                     User user = new User
                     {
                         Email = model.Email,
+                        UserName = model.Email,
                         Name = model.UserName,
                         Surname = model.UserSurname,
                         MiddleName = model.UserMiddleName,
