@@ -12,8 +12,10 @@ namespace SmartWork.Models
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
            : base(options)
         {
-           
+
         }
         public DbSet<Room> Room { get; set; }
+        public DbSet<Office> Office { get; set; }
+        public DbSet<Subscribe> Subscribe { get; set; }
     }
 }

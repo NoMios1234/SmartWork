@@ -11,7 +11,5 @@ namespace SmartWork.Models
         public string name { get; set; }
         public uint price { get; set; }
         public string desc { get; set; }
-        public DateTime startSub { get; set; }
-        public DateTime endSub { get; set; }
     }
 }

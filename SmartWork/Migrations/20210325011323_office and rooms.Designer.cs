@@ -10,8 +10,8 @@ using SmartWork.Models;
 namespace SmartWork.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210323185423_fix d")]
-    partial class fixd
+    [Migration("20210325011323_office and rooms")]
+    partial class officeandrooms
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -205,6 +205,32 @@ namespace SmartWork.Migrations
                     b.ToTable("MaterialEquipment");
                 });
 
+            modelBuilder.Entity("SmartWork.Models.Office", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("isFavourite")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("officeAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("officeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("subscribeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("subscribeId");
+
+                    b.ToTable("Office");
+                });
+
             modelBuilder.Entity("SmartWork.Models.Room", b =>
                 {
                     b.Property<int>("id")
@@ -238,6 +264,27 @@ namespace SmartWork.Migrations
                     b.HasIndex("equipmentId");
 
                     b.ToTable("Room");
+                });
+
+            modelBuilder.Entity("SmartWork.Models.Subscribe", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("desc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("price")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Subscribe");
                 });
 
             modelBuilder.Entity("SmartWork.Models.TechnicalEquipment", b =>
@@ -402,6 +449,17 @@ namespace SmartWork.Migrations
                     b.HasOne("SmartWork.Models.Equipment", null)
                         .WithMany("materialEquipment")
                         .HasForeignKey("Equipmentid");
+                });
+
+            modelBuilder.Entity("SmartWork.Models.Office", b =>
+                {
+                    b.HasOne("SmartWork.Models.Subscribe", "Subscribe")
+                        .WithMany()
+                        .HasForeignKey("subscribeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subscribe");
                 });
 
             modelBuilder.Entity("SmartWork.Models.Room", b =>

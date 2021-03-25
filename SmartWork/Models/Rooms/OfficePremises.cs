@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SmartWork.Models 
-{ 
-    public class RoomStatistic
+namespace SmartWork.Models
+{
+    public class OfficePremises
     {
         public int id { get; set; }
+        public int officeId { get; set; }
         public int roomId { get; set; }
-        public string statDesc { get; set; }
-        public string data { get; set; }
     }
 }

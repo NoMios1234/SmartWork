@@ -11,5 +11,7 @@ namespace SmartWork.Models
         public int subId { get; set; }
         public int userId { get; set; }
         public int officeId { get; set; }
+        public DateTime startSub { get; set; }
+        public DateTime endSub { get; set; }
     }
 }
