@@ -245,6 +245,9 @@ namespace SmartWork.Migrations
                     b.Property<int>("light")
                         .HasColumnType("int");
 
+                    b.Property<int>("officeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("roomName")
                         .HasColumnType("nvarchar(max)");
 
@@ -260,6 +263,8 @@ namespace SmartWork.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("equipmentId");
+
+                    b.HasIndex("officeId");
 
                     b.ToTable("Room");
                 });
@@ -468,7 +473,15 @@ namespace SmartWork.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SmartWork.Models.Office", "Office")
+                        .WithMany("Rooms")
+                        .HasForeignKey("officeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Equipment");
+
+                    b.Navigation("Office");
                 });
 
             modelBuilder.Entity("SmartWork.Models.TechnicalEquipment", b =>
@@ -483,6 +496,11 @@ namespace SmartWork.Migrations
                     b.Navigation("materialEquipment");
 
                     b.Navigation("technicalEquipment");
+                });
+
+            modelBuilder.Entity("SmartWork.Models.Office", b =>
+                {
+                    b.Navigation("Rooms");
                 });
 #pragma warning restore 612, 618
         }

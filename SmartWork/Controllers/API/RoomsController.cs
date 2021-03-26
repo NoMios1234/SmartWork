@@ -17,7 +17,7 @@ namespace SmartWork.Controllers.API
         public RoomsController(ApplicationContext context)
         {
             db = context;
-            if(!db.Room.Any())
+            if (!db.Room.Any())
             {
                 db.Room.Add(new Room
                 {
@@ -28,6 +28,7 @@ namespace SmartWork.Controllers.API
                     light = 1500,
                     square = 150,
                     equipmentId = 1,
+                    officeId = 1,
                     Equipment = new Equipment
                     {
                         equipmentDesc = "firstDesc",

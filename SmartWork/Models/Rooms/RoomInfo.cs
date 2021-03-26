@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SmartWork.Models
 {
-    public class Room
+    public class RoomInfo
     {
         public int id { get; set; }
         public string roomName { get; set; }
@@ -14,9 +14,7 @@ namespace SmartWork.Models
         public int temperature { get; set; }
         public int light { get; set; } // in lumens
         public double square { get; set; }
-        public int equipmentId { get; set; }   
+        public int equipmentId { get; set; }
         public int officeId { get; set; }
-        public virtual Equipment Equipment { get; set; }
-        public virtual Office Office { get; set; }
     }
 }

@@ -13,5 +13,6 @@ namespace SmartWork.Models
         public bool isFavourite { get; set; }
         public int subscribeId { get; set; }
         public virtual Subscribe Subscribe { get; set; }
+        public virtual List<RoomInfo> Rooms { get; set; }
     }
 }
