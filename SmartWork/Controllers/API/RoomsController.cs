@@ -36,10 +36,16 @@ namespace SmartWork.Controllers.API
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Room>>> Get()
         {
+            List<Equipment> equipments = await db.Equipment.ToListAsync();
+            foreach (var equipment in equipments)
+            {
+                equipment.MaterialEquipments = await db.MaterialEquipment.Where(eq => eq.EquipmentId == equipment.Id).ToListAsync();
+                equipment.TechnicalEquipments = await db.TechnicalEquipment.Where(eq => eq.EquipmentId == equipment.Id).ToListAsync();
+            }
             List<Room> rooms = await db.Room.ToListAsync();
             foreach (var room in rooms)
-            {
-                room.Equipments = await db.Equipment.Where(eq => eq.RoomId == room.Id).ToListAsync();
+            {             
+                room.Equipments = equipments.Where(eq => eq.RoomId == room.Id).ToList();  
             }
             return await db.Room.ToListAsync();
         }
@@ -48,49 +54,55 @@ namespace SmartWork.Controllers.API
         [HttpGet("{id}")]
         public async Task<ActionResult<Room>> Get(int id)
         {
+            List<Equipment> equipments = await db.Equipment.ToListAsync();
+            foreach (var equipment in equipments)
+            {
+                equipment.MaterialEquipments = await db.MaterialEquipment.Where(eq => eq.EquipmentId == equipment.Id).ToListAsync();
+                equipment.TechnicalEquipments = await db.TechnicalEquipment.Where(eq => eq.EquipmentId == equipment.Id).ToListAsync();
+            }
             Room room = await db.Room.FirstOrDefaultAsync(x => x.Id == id);
             if (room == null)
                 return NotFound();
-            room.Equipments = await db.Equipment.Where(eq => eq.RoomId == room.Id).ToListAsync();
+            room.Equipments = equipments.Where(eq => eq.RoomId == room.Id).ToList();
             return new ObjectResult(room);
         }
 
         // POST api/Rooms
         [HttpPost]
-        public async Task<ActionResult<Room>> Post(Room Room)
+        public async Task<ActionResult<Room>> Post(Room room)
         {
-            if (Room == null)
+            if (room == null)
             {
                 return BadRequest();
             }
-            db.Room.Add(Room);
+            db.Room.Add(room);
             await db.SaveChangesAsync();
-            return Ok(Room);
+            return Ok(room);
         }
 
         // PUT api/Rooms/
         [HttpPut]
-        public async Task<ActionResult<Room>> Put(Room Room)
+        public async Task<ActionResult<Room>> Put(Room room)
         {
-            if (Room == null)
+            if (room == null)
             {
                 return BadRequest();
             }
-            if (!db.Room.Any(x => x.Id == Room.Id))
+            if (!db.Room.Any(r => r.Id == room.Id))
             {
                 return NotFound();
             }
 
-            db.Update(Room);
+            db.Update(room);
             await db.SaveChangesAsync();
-            return Ok(Room);
+            return Ok(room);
         }
 
         // DELETE api/Rooms/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Room>> Delete(int id)
         {
-            Room Room = db.Room.FirstOrDefault(x => x.Id == id);
+            Room Room = db.Room.FirstOrDefault(r => r.Id == id);
             if (Room == null)
             {
                 return NotFound();

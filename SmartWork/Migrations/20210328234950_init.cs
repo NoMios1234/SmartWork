@@ -50,21 +50,6 @@ namespace SmartWork.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Office",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OfficeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OfficeAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsFavourite = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Office", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -171,6 +156,21 @@ namespace SmartWork.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Office",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OfficeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OfficeAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsFavourite = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Office", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Room",
                 columns: table => new
                 {
@@ -192,7 +192,7 @@ namespace SmartWork.Migrations
                         column: x => x.OfficeId,
                         principalTable: "Office",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -214,7 +214,7 @@ namespace SmartWork.Migrations
                         column: x => x.OfficeId,
                         principalTable: "Office",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -234,7 +234,7 @@ namespace SmartWork.Migrations
                         column: x => x.RoomId,
                         principalTable: "Room",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -257,7 +257,7 @@ namespace SmartWork.Migrations
                         column: x => x.EquipmentId,
                         principalTable: "Equipment",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -280,7 +280,7 @@ namespace SmartWork.Migrations
                         column: x => x.EquipmentId,
                         principalTable: "Equipment",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

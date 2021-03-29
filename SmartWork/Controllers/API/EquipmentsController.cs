@@ -72,7 +72,7 @@ namespace SmartWork.Controllers.API
             }
         }
 
-        // GET api/Equipments
+        // GET api/equipments
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Equipment>>> Get()
         {
@@ -85,7 +85,7 @@ namespace SmartWork.Controllers.API
             return await db.Equipment.ToArrayAsync();
         }
 
-        // GET api/Equipments/5
+        // GET api/equipments/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Equipment>> Get(int id)
         {
@@ -99,43 +99,43 @@ namespace SmartWork.Controllers.API
             return new ObjectResult(equipment);
         }
 
-        // POST api/Equipments
+        // POST api/equipments
         [HttpPost]
-        public async Task<ActionResult<Equipment>> Post(Equipment Equipment)
+        public async Task<ActionResult<Equipment>> Post(Equipment equipment)
         {
-            if (Equipment == null)
+            if (equipment == null)
             {
                 return BadRequest();
             }
 
-            db.Equipment.Add(Equipment);
+            db.Equipment.Add(equipment);
             await db.SaveChangesAsync();
-            return Ok(Equipment);
+            return Ok(equipment);
         }
 
-        // PUT api/Equipments/
+        // PUT api/equipments/
         [HttpPut]
-        public async Task<ActionResult<Equipment>> Put(Equipment Equipment)
+        public async Task<ActionResult<Equipment>> Put(Equipment equipment)
         {
-            if (Equipment == null)
+            if (equipment == null)
             {
                 return BadRequest();
             }
-            if (!db.Equipment.Any(x => x.Id == Equipment.Id))
+            if (!db.Equipment.Any(eq => eq.Id == equipment.Id))
             {
                 return NotFound();
             }
 
-            db.Update(Equipment);
+            db.Update(equipment);
             await db.SaveChangesAsync();
-            return Ok(Equipment);
+            return Ok(equipment);
         }
 
-        // DELETE api/Equipments/5
+        // DELETE api/equipments/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Equipment>> Delete(int id)
         {
-            Equipment Equipment = db.Equipment.FirstOrDefault(x => x.Id == id);
+            Equipment Equipment = db.Equipment.FirstOrDefault(eq => eq.Id == id);
             if (Equipment == null)
             {
                 return NotFound();

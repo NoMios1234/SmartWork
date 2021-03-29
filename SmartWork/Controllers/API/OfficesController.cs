@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SmartWork.Controllers.API
 {
-    
+    [Route("api/[controller]")]
     [ApiController]
     public class OfficesController : ControllerBase
     {
@@ -28,11 +28,20 @@ namespace SmartWork.Controllers.API
                 db.SaveChanges();
             }
         }
-
-        [Route("api/[controller]")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Office>>> Get()
         {
+            List<Equipment> equipments = await db.Equipment.ToListAsync();
+            foreach (var equipment in equipments)
+            {
+                equipment.MaterialEquipments = await db.MaterialEquipment.Where(eq => eq.EquipmentId == equipment.Id).ToListAsync();
+                equipment.TechnicalEquipments = await db.TechnicalEquipment.Where(eq => eq.EquipmentId == equipment.Id).ToListAsync();
+            }
+            List<Room> rooms = await db.Room.ToListAsync();
+            foreach (var room in rooms)
+            {
+                room.Equipments = equipments.Where(eq => eq.RoomId == room.Id).ToList();
+            }
             List<Office> offices = await db.Office.ToListAsync();
             foreach(var office in offices)
             {
@@ -42,55 +51,62 @@ namespace SmartWork.Controllers.API
         }
 
         // GET api/offices/5
-        [Route("api/[controller]")]
         [HttpGet("{id}")]
         public async Task<ActionResult<Office>> Get(int id)
         {
-            Office office = await db.Office.FirstOrDefaultAsync(x => x.Id == id);
+            List<Equipment> equipments = await db.Equipment.ToListAsync();
+            foreach (var equipment in equipments)
+            {
+                equipment.MaterialEquipments = await db.MaterialEquipment.Where(eq => eq.EquipmentId == equipment.Id).ToListAsync();
+                equipment.TechnicalEquipments = await db.TechnicalEquipment.Where(eq => eq.EquipmentId == equipment.Id).ToListAsync();
+            }
+            List<Room> rooms = await db.Room.ToListAsync();
+            foreach (var room in rooms)
+            {
+                room.Equipments = equipments.Where(eq => eq.RoomId == room.Id).ToList();
+            }
+            Office office = await db.Office.FirstOrDefaultAsync(o => o.Id == id);
             office.Rooms = await db.Room.Where(r => r.OfficeId == office.Id).ToListAsync();
             return new ObjectResult(office);
         }
 
         // POST api/offices
-        [Route("api/[controller]")]
         [HttpPost]
-        public async Task<ActionResult<Office>> Post(Office Office)
+        public async Task<ActionResult<Office>> Post(Office office)
         {
-            if (Office == null)
+            if (office == null)
             {
                 return BadRequest();
             }
 
-            db.Office.Add(Office);
+            db.Office.Add(office);
             await db.SaveChangesAsync();
-            return Ok(Office);
+            return Ok(office);
         }
 
         // PUT api/offices/
-        [Route("api/[controller]")]
         [HttpPut]
-        public async Task<ActionResult<Office>> Put(Office Office)
+        public async Task<ActionResult<Office>> Put(Office office)
         {
-            if (Office == null)
+            if (office == null)
             {
                 return BadRequest();
             }
-            if (!db.Office.Any(x => x.Id == Office.Id))
+            if (!db.Office.Any(o => o.Id == office.Id))
             {
                 return NotFound();
             }
 
-            db.Update(Office);
+            db.Update(office);
             await db.SaveChangesAsync();
-            return Ok(Office);
+            return Ok(office);
         }
 
         // DELETE api/offices/5
-        [Route("api/[controller]")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Office>> Delete(int id)
         {
-            Office Office = db.Office.FirstOrDefault(x => x.Id == id);
+            Office Office = db.Office.FirstOrDefault(o => o.Id == id);
             if (Office == null)
             {
                 return NotFound();
@@ -99,49 +115,5 @@ namespace SmartWork.Controllers.API
             await db.SaveChangesAsync();
             return Ok(Office);
         }
-
-        //сделать добавление комнат к оффису
-        //сделать редактирование подписки    
-
-        /// <summary>
-        /// проверит работу этой API 
-        /// </summary>
-        /// <param name="room"></param>
-        /// <returns></returns>
-
-        // GET api/offices/addroom
-        //[Route("api/[controller]/[action]/")]
-        //[HttpPost]
-        //public async Task<ActionResult<Office>> AddRoom(Room room)
-        //{
-        //    if (room != null)
-        //    {
-        //        db.Room.Add(room);
-        //        await db.SaveChangesAsync();
-        //        Office Office = await db.Office.FirstOrDefaultAsync(o => o.id == room.OfficeId);
-        //        Office.Rooms = await db.Room.Where(r => r.OfficeId == Office.id).ToListAsync();
-        //        return Ok(Office);
-        //    }
-        //    else
-        //        return BadRequest();
-        //}
-        //// GET api/Offices/officesbyid/5
-        //[Route("api/[controller]/[action]")]
-        //[HttpPost("{id}")]
-        //public async Task<ActionResult<Office>> AddRoomById(int id, )
-        //{
-        //    Room room = await db.Room.FirstOrDefaultAsync(r => r.Id == id);
-        //    if (room != null)
-        //    {
-        //        db.
-        //        db.Room.Add(room);
-        //        await db.SaveChangesAsync();
-        //        Office Office = await db.Office.FirstOrDefaultAsync(o => o.id == room.OfficeId);
-        //        Office.Rooms = await db.Room.Where(r => r.OfficeId == Office.id).ToListAsync();
-        //        return Ok(Office);
-        //    }
-        //    else
-        //        return BadRequest();
-        //}
     }
 }
