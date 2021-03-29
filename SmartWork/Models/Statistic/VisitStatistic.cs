@@ -7,9 +7,10 @@ namespace SmartWork.Models
 {
     public class VisitStatistic
     {
-        public int id { get; set; }
-        public int userId { get; set; }
-        public string statDesc { get; set; }
-        public string data { get; set; }
+        public int Id { get; set; }
+        public string UserId { get; set; }
+        public string Description { get; set; }
+        public string Data { get; set; }
+        public int StatisticId { get; set; }
     }
 }

@@ -7,9 +7,11 @@ namespace SmartWork.Models
 { 
     public class RoomStatistic
     {
-        public int id { get; set; }
-        public int roomId { get; set; }
-        public string statDesc { get; set; }
-        public string data { get; set; }
+        public int Id { get; set; }
+        public int RoomId { get; set; }
+        public string Description { get; set; }
+        public string Data { get; set; }    
+        public int StatisticId { get; set; }
+       
     }
 }

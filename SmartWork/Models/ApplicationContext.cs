@@ -22,5 +22,8 @@ namespace SmartWork.Models
         public DbSet<Equipment> Equipment { get; set; }
         public DbSet<TechnicalEquipment> TechnicalEquipment { get; set; }
         public DbSet<MaterialEquipment> MaterialEquipment { get; set; }
+        public DbSet<Statistic> Statistic { get; set; }
+        public DbSet<RoomStatistic> RoomStatistic { get; set; }
+        public DbSet<VisitStatistic> VisitStatistic { get; set; }
     }
 }

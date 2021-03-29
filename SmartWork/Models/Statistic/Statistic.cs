@@ -7,9 +7,14 @@ namespace SmartWork.Models
 {
     public class Statistic
     {
-        public int id { get; set; }
-        public string statDesc { get; set; }
-        public List<RoomStatistic> roomStatistics { get; set; }
-        public List<VisitStatistic> visitStatistics { get; set; }
+        public Statistic()
+        {
+            RoomStatistics = new HashSet<RoomStatistic>();
+            VisitStatistics = new HashSet<VisitStatistic>();
+        }
+        public int Id { get; set; }
+        public string Description { get; set; }
+        public ICollection<RoomStatistic> RoomStatistics { get; set; }
+        public ICollection<VisitStatistic> VisitStatistics { get; set; }
     }
 }
