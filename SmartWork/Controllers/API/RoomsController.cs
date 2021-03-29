@@ -21,37 +21,13 @@ namespace SmartWork.Controllers.API
             {
                 db.Room.Add(new Room
                 {
-                    roomName = "firstRoom",
-                    roomNumber = 1,
-                    companyName = null,
-                    temperature = 23,
-                    light = 1500,
-                    square = 150,
-                    equipmentId = 1,
-                    officeId = 1,
-                    Equipment = new Equipment
-                    {
-                        equipmentDesc = "firstDesc",
-                        technicalEquipment = new List<TechnicalEquipment>
-                        {
-                            new TechnicalEquipment
-                            {
-                                equipmentName = "firsttech",
-                                equipmentCount = 150,
-                                equipmentDesc = "rterfgdg",
-                                available = true,
-                                roomId = 1
-                            },
-                            new TechnicalEquipment
-                            {
-                                equipmentName = "secondtech",
-                                equipmentCount = 250,
-                                equipmentDesc = "rterfgdg",
-                                available = false,
-                                roomId = 1
-                            }
-                        }
-                    }
+                    RoomName = "firstRoom",
+                    RoomNumber = 1,
+                    CompanyName = null,
+                    Temperature = 23,
+                    Light = 1500,
+                    Square = 150,
+                    OfficeId = db.Office.FirstOrDefault().Id
                 });
                 db.SaveChanges();
             }
@@ -60,63 +36,68 @@ namespace SmartWork.Controllers.API
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Room>>> Get()
         {
+            List<Room> rooms = await db.Room.ToListAsync();
+            foreach (var room in rooms)
+            {
+                room.Equipments = await db.Equipment.Where(eq => eq.RoomId == room.Id).ToListAsync();
+            }
             return await db.Room.ToListAsync();
         }
 
-        // GET api/rooms/5
+        // GET api/Rooms/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Room>> Get(int id)
         {
-            Room room = await db.Room.FirstOrDefaultAsync(x => x.id == id);
+            Room room = await db.Room.FirstOrDefaultAsync(x => x.Id == id);
             if (room == null)
                 return NotFound();
+            room.Equipments = await db.Equipment.Where(eq => eq.RoomId == room.Id).ToListAsync();
             return new ObjectResult(room);
         }
 
-        // POST api/rooms
+        // POST api/Rooms
         [HttpPost]
-        public async Task<ActionResult<Room>> Post(Room room)
+        public async Task<ActionResult<Room>> Post(Room Room)
         {
-            if (room == null)
+            if (Room == null)
             {
                 return BadRequest();
             }
-
-            db.Room.Add(room);
+            db.Room.Add(Room);
             await db.SaveChangesAsync();
-            return Ok(room);
+            return Ok(Room);
         }
 
-        // PUT api/rooms/
+        // PUT api/Rooms/
         [HttpPut]
-        public async Task<ActionResult<Room>> Put(Room room)
+        public async Task<ActionResult<Room>> Put(Room Room)
         {
-            if (room == null)
+            if (Room == null)
             {
                 return BadRequest();
             }
-            if (!db.Room.Any(x => x.id == room.id))
+            if (!db.Room.Any(x => x.Id == Room.Id))
             {
                 return NotFound();
             }
 
-            db.Update(room);
+            db.Update(Room);
             await db.SaveChangesAsync();
-            return Ok(room);
+            return Ok(Room);
         }
 
-        // DELETE api/rooms/5
+        // DELETE api/Rooms/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Room>> Delete(int id)
         {
-            Room room = db.Room.FirstOrDefault(x => x.id == id);
-            if (room == null)
+            Room Room = db.Room.FirstOrDefault(x => x.Id == id);
+            if (Room == null)
             {
                 return NotFound();
             }
-            db.Room.Remove(room);
+            db.Room.Remove(Room);
             await db.SaveChangesAsync();
-            return Ok(room);
+            return Ok(Room);
         }
     }
 }

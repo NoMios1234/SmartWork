@@ -7,11 +7,16 @@ namespace SmartWork.Models
 {
     public class Equipment
     {
-        public int id { get; set; }
-        public string equipmentDesc { get; set; }
-        public int materialEquipmentId { get; set; }
-        public int technicalEquipmentId { get; set; }
-        public virtual List<MaterialEquipment> materialEquipment { get; set; }
-        public virtual List<TechnicalEquipment> technicalEquipment { get; set; }
+        public Equipment()
+        {
+            MaterialEquipments = new HashSet<MaterialEquipment>();
+            TechnicalEquipments = new HashSet<TechnicalEquipment>();
+        }
+
+        public int Id { get; set; }
+        public string EquipmentDesc { get; set; }
+        public int RoomId { get; set; }
+        public virtual ICollection<MaterialEquipment> MaterialEquipments { get; set; }
+        public virtual ICollection<TechnicalEquipment> TechnicalEquipments { get; set; }
     }
 }

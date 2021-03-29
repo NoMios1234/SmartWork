@@ -7,12 +7,16 @@ namespace SmartWork.Models
 {
     public class Office
     {
-        public int id { get; set; }
-        public string officeName { get; set; }
-        public string officeAddress { get; set; }
-        public bool isFavourite { get; set; }
-        public int subscribeId { get; set; }
-        public virtual Subscribe Subscribe { get; set; }
-        public virtual List<RoomInfo> Rooms { get; set; }
+        public Office()
+        {
+            Subscribes = new HashSet<Subscribe>();
+            Rooms = new HashSet<Room>();
+        }
+        public int Id { get; set; }
+        public string OfficeName { get; set; }
+        public string OfficeAddress { get; set; }
+        public bool IsFavourite { get; set; }
+        public virtual ICollection<Subscribe> Subscribes { get; set; }
+        public virtual ICollection<Room> Rooms { get; set; }
     }
 }

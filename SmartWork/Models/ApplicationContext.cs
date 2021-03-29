@@ -12,11 +12,14 @@ namespace SmartWork.Models
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
            : base(options)
         {
- 
+            Database.EnsureCreated();
         }
 
         public DbSet<Room> Room { get; set; }
         public DbSet<Office> Office { get; set; }
         public DbSet<Subscribe> Subscribe { get; set; }
+        public DbSet<Equipment> Equipment { get; set; }
+        public DbSet<TechnicalEquipment> TechnicalEquipment { get; set; }
+        public DbSet<MaterialEquipment> MaterialEquipment { get; set; }
     }
 }

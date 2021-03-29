@@ -152,172 +152,160 @@ namespace SmartWork.Migrations
 
             modelBuilder.Entity("SmartWork.Models.Equipment", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("equipmentDesc")
+                    b.Property<string>("EquipmentDesc")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("materialEquipmentId")
+                    b.Property<int?>("RoomId")
                         .HasColumnType("int");
 
-                    b.Property<int>("technicalEquipmentId")
-                        .HasColumnType("int");
+                    b.HasKey("Id");
 
-                    b.HasKey("id");
+                    b.HasIndex("RoomId");
 
                     b.ToTable("Equipment");
                 });
 
             modelBuilder.Entity("SmartWork.Models.MaterialEquipment", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("Equipmentid")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("available")
+                    b.Property<bool>("Available")
                         .HasColumnType("bit");
 
-                    b.Property<int>("equipmentCount")
+                    b.Property<int>("EquipmentCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("equipmentDesc")
+                    b.Property<string>("EquipmentDesc")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("equipmentName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("roomId")
+                    b.Property<int?>("EquipmentId")
                         .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.Property<string>("EquipmentName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("Equipmentid");
+                    b.HasKey("Id");
+
+                    b.HasIndex("EquipmentId");
 
                     b.ToTable("MaterialEquipment");
                 });
 
             modelBuilder.Entity("SmartWork.Models.Office", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("isFavourite")
+                    b.Property<bool>("IsFavourite")
                         .HasColumnType("bit");
 
-                    b.Property<string>("officeAddress")
+                    b.Property<string>("OfficeAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("officeName")
+                    b.Property<string>("OfficeName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("subscribeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("subscribeId");
+                    b.HasKey("Id");
 
                     b.ToTable("Office");
                 });
 
             modelBuilder.Entity("SmartWork.Models.Room", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("companyName")
+                    b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("equipmentId")
+                    b.Property<int>("Light")
                         .HasColumnType("int");
 
-                    b.Property<int>("light")
+                    b.Property<int?>("OfficeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("officeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("roomName")
+                    b.Property<string>("RoomName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("roomNumber")
+                    b.Property<int>("RoomNumber")
                         .HasColumnType("int");
 
-                    b.Property<double>("square")
+                    b.Property<double>("Square")
                         .HasColumnType("float");
 
-                    b.Property<int>("temperature")
+                    b.Property<int>("Temperature")
                         .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("equipmentId");
-
-                    b.HasIndex("officeId");
+                    b.HasIndex("OfficeId");
 
                     b.ToTable("Room");
                 });
 
             modelBuilder.Entity("SmartWork.Models.Subscribe", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("desc")
+                    b.Property<string>("Desc")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("name")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("price")
+                    b.Property<int?>("OfficeId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("Price")
                         .HasColumnType("bigint");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
+
+                    b.HasIndex("OfficeId");
 
                     b.ToTable("Subscribe");
                 });
 
             modelBuilder.Entity("SmartWork.Models.TechnicalEquipment", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("Equipmentid")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("available")
+                    b.Property<bool>("Available")
                         .HasColumnType("bit");
 
-                    b.Property<int>("equipmentCount")
+                    b.Property<int>("EquipmentCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("equipmentDesc")
+                    b.Property<string>("EquipmentDesc")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("equipmentName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("roomId")
+                    b.Property<int?>("EquipmentId")
                         .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.Property<string>("EquipmentName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("Equipmentid");
+                    b.HasKey("Id");
+
+                    b.HasIndex("EquipmentId");
 
                     b.ToTable("TechnicalEquipment");
                 });
@@ -447,60 +435,68 @@ namespace SmartWork.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SmartWork.Models.MaterialEquipment", b =>
+            modelBuilder.Entity("SmartWork.Models.Equipment", b =>
                 {
-                    b.HasOne("SmartWork.Models.Equipment", null)
-                        .WithMany("materialEquipment")
-                        .HasForeignKey("Equipmentid");
+                    b.HasOne("SmartWork.Models.Room", "Room")
+                        .WithMany("Equipments")
+                        .HasForeignKey("RoomId");
+
+                    b.Navigation("Room");
                 });
 
-            modelBuilder.Entity("SmartWork.Models.Office", b =>
+            modelBuilder.Entity("SmartWork.Models.MaterialEquipment", b =>
                 {
-                    b.HasOne("SmartWork.Models.Subscribe", "Subscribe")
-                        .WithMany()
-                        .HasForeignKey("subscribeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("SmartWork.Models.Equipment", "Equipment")
+                        .WithMany("MaterialEquipments")
+                        .HasForeignKey("EquipmentId");
 
-                    b.Navigation("Subscribe");
+                    b.Navigation("Equipment");
                 });
 
             modelBuilder.Entity("SmartWork.Models.Room", b =>
                 {
-                    b.HasOne("SmartWork.Models.Equipment", "Equipment")
-                        .WithMany()
-                        .HasForeignKey("equipmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SmartWork.Models.Office", "Office")
                         .WithMany("Rooms")
-                        .HasForeignKey("officeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OfficeId");
 
-                    b.Navigation("Equipment");
+                    b.Navigation("Office");
+                });
+
+            modelBuilder.Entity("SmartWork.Models.Subscribe", b =>
+                {
+                    b.HasOne("SmartWork.Models.Office", "Office")
+                        .WithMany("Subscribes")
+                        .HasForeignKey("OfficeId");
 
                     b.Navigation("Office");
                 });
 
             modelBuilder.Entity("SmartWork.Models.TechnicalEquipment", b =>
                 {
-                    b.HasOne("SmartWork.Models.Equipment", null)
-                        .WithMany("technicalEquipment")
-                        .HasForeignKey("Equipmentid");
+                    b.HasOne("SmartWork.Models.Equipment", "Equipment")
+                        .WithMany("TechnicalEquipments")
+                        .HasForeignKey("EquipmentId");
+
+                    b.Navigation("Equipment");
                 });
 
             modelBuilder.Entity("SmartWork.Models.Equipment", b =>
                 {
-                    b.Navigation("materialEquipment");
+                    b.Navigation("MaterialEquipments");
 
-                    b.Navigation("technicalEquipment");
+                    b.Navigation("TechnicalEquipments");
                 });
 
             modelBuilder.Entity("SmartWork.Models.Office", b =>
                 {
                     b.Navigation("Rooms");
+
+                    b.Navigation("Subscribes");
+                });
+
+            modelBuilder.Entity("SmartWork.Models.Room", b =>
+                {
+                    b.Navigation("Equipments");
                 });
 #pragma warning restore 612, 618
         }

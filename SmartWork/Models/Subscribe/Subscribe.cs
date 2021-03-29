@@ -7,9 +7,10 @@ namespace SmartWork.Models
 {
     public class Subscribe
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public uint price { get; set; }
-        public string desc { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public uint Price { get; set; }
+        public string Desc { get; set; }
+        public virtual Office Office { get; set; }
     }
 }
