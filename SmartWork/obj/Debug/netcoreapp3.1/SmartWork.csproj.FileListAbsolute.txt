@@ -210,3 +210,5 @@ C:\Users\Dmitry\source\repos\SmartWork\SmartWork\obj\Debug\netcoreapp3.1\Razor\V
 C:\Users\Dmitry\source\repos\SmartWork\SmartWork\obj\Debug\netcoreapp3.1\Razor\Views\User\Edit.cshtml.g.cs
 C:\Users\Dmitry\source\repos\SmartWork\SmartWork\obj\Debug\netcoreapp3.1\Razor\Views\User\Index.cshtml.g.cs
 C:\Users\Dmitry\source\repos\SmartWork\SmartWork\obj\Debug\netcoreapp3.1\SmartWork.csprojAssemblyReference.cache
+C:\Users\Dmitry\source\repos\SmartWork\SmartWork\bin\Debug\netcoreapp3.1\QRCoder.dll
+C:\Users\Dmitry\source\repos\SmartWork\SmartWork\obj\Debug\netcoreapp3.1\Razor\Views\QRCoder\Index.cshtml.g.cs
