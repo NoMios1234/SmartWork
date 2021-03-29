@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartWork.Models;
 
 namespace SmartWork.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210329170002_drop casscade company id in room")]
+    partial class dropcasscadecompanyidinroom
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,9 +229,6 @@ namespace SmartWork.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsFavourite")
                         .HasColumnType("bit");
 
@@ -244,8 +243,6 @@ namespace SmartWork.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
-
                     b.ToTable("Office");
                 });
 
@@ -256,8 +253,8 @@ namespace SmartWork.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CompanyName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Light")
                         .HasColumnType("int");
@@ -278,6 +275,8 @@ namespace SmartWork.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
 
                     b.HasIndex("OfficeId");
 
@@ -482,17 +481,14 @@ namespace SmartWork.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SmartWork.Models.Office", b =>
+            modelBuilder.Entity("SmartWork.Models.Room", b =>
                 {
                     b.HasOne("SmartWork.Models.Company", null)
-                        .WithMany("Offices")
+                        .WithMany("Rooms")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("SmartWork.Models.Room", b =>
-                {
                     b.HasOne("SmartWork.Models.Office", null)
                         .WithMany("Rooms")
                         .HasForeignKey("OfficeId")
@@ -520,7 +516,7 @@ namespace SmartWork.Migrations
 
             modelBuilder.Entity("SmartWork.Models.Company", b =>
                 {
-                    b.Navigation("Offices");
+                    b.Navigation("Rooms");
                 });
 
             modelBuilder.Entity("SmartWork.Models.Equipment", b =>

@@ -21,18 +21,19 @@ namespace SmartWork.Controllers.API
             {
                 db.Room.Add(new Room
                 {
-                    RoomName = "firstRoom",
+                    RoomName = "Big room",
                     RoomNumber = 1,
-                    CompanyName = null,
-                    Temperature = 23,
+                    Temperature = 22,
                     Light = 1500,
                     Square = 150,
-                    OfficeId = db.Office.FirstOrDefault().Id
+                    OfficeId = db.Office.FirstOrDefault(o => o.OfficeName == "Smart Work office").Id,
+                    CompanyName = db.Company.FirstOrDefault(cp => cp.CompanyName == "SmartWork Company").CompanyName
                 });
                 db.SaveChanges();
             }
         }
 
+        // GET api/rooms
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Room>>> Get()
         {
@@ -50,7 +51,7 @@ namespace SmartWork.Controllers.API
             return await db.Room.ToListAsync();
         }
 
-        // GET api/Rooms/5
+        // GET api/rooms/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Room>> Get(int id)
         {
@@ -67,7 +68,7 @@ namespace SmartWork.Controllers.API
             return new ObjectResult(room);
         }
 
-        // POST api/Rooms
+        // POST api/rooms
         [HttpPost]
         public async Task<ActionResult<Room>> Post(Room room)
         {
@@ -80,7 +81,7 @@ namespace SmartWork.Controllers.API
             return Ok(room);
         }
 
-        // PUT api/Rooms/
+        // PUT api/rooms/
         [HttpPut]
         public async Task<ActionResult<Room>> Put(Room room)
         {
@@ -98,7 +99,7 @@ namespace SmartWork.Controllers.API
             return Ok(room);
         }
 
-        // DELETE api/Rooms/5
+        // DELETE api/rooms/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Room>> Delete(int id)
         {

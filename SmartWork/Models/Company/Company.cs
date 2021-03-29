@@ -7,8 +7,11 @@ namespace SmartWork.Models
 {
     public class Company
     {
-        public int id { get; set; }
-        public string companyName { get; set; }
-        public Room Room { get; set; }
+        public int Id { get; set; }
+        public string CompanyName { get; set; }
+        public string CompanyAddress { get; set; }
+        public string CompanyPhoneNumber { get; set; }
+        public virtual ICollection<Office> Offices { get; set; }
     }
+    
 }

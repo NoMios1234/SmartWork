@@ -21,9 +21,10 @@ namespace SmartWork.Controllers.API
             {
                 db.Office.Add(new Office
                 {
-                    OfficeName = "DefalutOffice",
-                    OfficeAddress = "DefalutAddress",
-                    IsFavourite = true
+                    OfficeName = "Smart Work office",
+                    OfficeAddress = "Pobedy, 64 street",
+                    IsFavourite = true,
+                    CompanyId = db.Company.FirstOrDefault(cp => cp.CompanyName == "SmartWork Company").Id
                 });
                 db.SaveChanges();
             }

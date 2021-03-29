@@ -17,6 +17,7 @@ namespace SmartWork.Models
 
         public DbSet<Room> Room { get; set; }
         public DbSet<Office> Office { get; set; }
+        public DbSet<Company> Company { get; set; }
         public DbSet<Subscribe> Subscribe { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
         public DbSet<TechnicalEquipment> TechnicalEquipment { get; set; }
