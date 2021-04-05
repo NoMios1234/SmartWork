@@ -25,5 +25,7 @@ namespace SmartWork.Models
         public DbSet<Statistic> Statistic { get; set; }
         public DbSet<RoomStatistic> RoomStatistic { get; set; }
         public DbSet<VisitStatistic> VisitStatistic { get; set; }
+        //public DbSet<Order> Orders { get; set; }
+        //public DbSet<OrderDetail> OrderDetails { get; set; }
     }
 }
