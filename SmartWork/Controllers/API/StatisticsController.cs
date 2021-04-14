@@ -23,7 +23,8 @@ namespace SmartWork.Controllers.API
             {
                 db.Statistic.Add(new Statistic
                 {
-                    Description = "Main statistic",
+                    StatisticName = "Init stat",
+                    StatisticDescription = "Main statistic"
                 });
                 db.SaveChanges();
             }

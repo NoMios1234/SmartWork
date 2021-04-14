@@ -144,5 +144,17 @@ namespace SmartWork.Controllers.API
             await db.SaveChangesAsync();
             return Ok(Equipment);
         }
+
+        [HttpGet("/Equipments/GetTechnicalEquipment/{id}")]
+        public async Task<ActionResult<IEnumerable<TechnicalEquipment>>> GetTechnicalEquipment(int id)
+        {
+            return await db.TechnicalEquipment.Where(eq => eq.EquipmentId == id).ToListAsync();
+        }
+
+        [HttpGet("/Equipments/GetMaterialEquipment/{id}")]
+        public async Task<ActionResult<IEnumerable<MaterialEquipment>>> GetMaterialEquipment(int id)
+        {
+            return await db.MaterialEquipment.Where(eq => eq.EquipmentId == id).ToListAsync();
+        }
     }
 }

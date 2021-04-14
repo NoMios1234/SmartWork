@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SmartWork.Migrations
 {
-    public partial class init : Migration
+    public partial class Stat : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,6 +47,37 @@ namespace SmartWork.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Company",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhotoFileName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Company", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Statistic",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StatisticName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StatisticDescription = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Statistic", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -163,11 +194,49 @@ namespace SmartWork.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OfficeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OfficeAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsFavourite = table.Column<bool>(type: "bit", nullable: false)
+                    OfficePhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsFavourite = table.Column<bool>(type: "bit", nullable: false),
+                    CompanyId = table.Column<int>(type: "int", nullable: false),
+                    PhotoFileName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Office", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Office_Company_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Company",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VisitStatistic",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    VisitStatisticName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Data = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    StatisticId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VisitStatistic", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VisitStatistic_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_VisitStatistic_Statistic_StatisticId",
+                        column: x => x.StatisticId,
+                        principalTable: "Statistic",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -182,7 +251,8 @@ namespace SmartWork.Migrations
                     Temperature = table.Column<int>(type: "int", nullable: false),
                     Light = table.Column<int>(type: "int", nullable: false),
                     Square = table.Column<double>(type: "float", nullable: false),
-                    OfficeId = table.Column<int>(type: "int", nullable: true)
+                    OfficeId = table.Column<int>(type: "int", nullable: false),
+                    PhotoFileName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -196,21 +266,21 @@ namespace SmartWork.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Subscribe",
+                name: "SubscribeDetail",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<long>(type: "bigint", nullable: false),
-                    Desc = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OfficeId = table.Column<int>(type: "int", nullable: true)
+                    SubscribeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubscribePrice = table.Column<long>(type: "bigint", nullable: false),
+                    SubscribeDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OfficeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Subscribe", x => x.Id);
+                    table.PrimaryKey("PK_SubscribeDetail", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Subscribe_Office_OfficeId",
+                        name: "FK_SubscribeDetail_Office_OfficeId",
                         column: x => x.OfficeId,
                         principalTable: "Office",
                         principalColumn: "Id",
@@ -224,7 +294,7 @@ namespace SmartWork.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EquipmentDesc = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RoomId = table.Column<int>(type: "int", nullable: true)
+                    RoomId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -233,6 +303,72 @@ namespace SmartWork.Migrations
                         name: "FK_Equipment_Room_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Room",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RoomStatistic",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoomStatisticName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Data = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RoomId = table.Column<int>(type: "int", nullable: false),
+                    StatisticId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoomStatistic", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RoomStatistic_Room_RoomId",
+                        column: x => x.RoomId,
+                        principalTable: "Room",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RoomStatistic_Statistic_StatisticId",
+                        column: x => x.StatisticId,
+                        principalTable: "Statistic",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Subscribe",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SubscribeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubscribeDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartSubscribe = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndSubscribe = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    SubscribeDetailId = table.Column<int>(type: "int", nullable: false),
+                    OfficeId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subscribe", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Subscribe_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Subscribe_Office_OfficeId",
+                        column: x => x.OfficeId,
+                        principalTable: "Office",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Subscribe_SubscribeDetail_SubscribeDetailId",
+                        column: x => x.SubscribeDetailId,
+                        principalTable: "SubscribeDetail",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -247,7 +383,7 @@ namespace SmartWork.Migrations
                     EquipmentCount = table.Column<int>(type: "int", nullable: false),
                     EquipmentDesc = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Available = table.Column<bool>(type: "bit", nullable: false),
-                    EquipmentId = table.Column<int>(type: "int", nullable: true)
+                    EquipmentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -270,7 +406,7 @@ namespace SmartWork.Migrations
                     EquipmentCount = table.Column<int>(type: "int", nullable: false),
                     EquipmentDesc = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Available = table.Column<bool>(type: "bit", nullable: false),
-                    EquipmentId = table.Column<int>(type: "int", nullable: true)
+                    EquipmentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -333,9 +469,24 @@ namespace SmartWork.Migrations
                 column: "EquipmentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Office_CompanyId",
+                table: "Office",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Room_OfficeId",
                 table: "Room",
                 column: "OfficeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RoomStatistic_RoomId",
+                table: "RoomStatistic",
+                column: "RoomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RoomStatistic_StatisticId",
+                table: "RoomStatistic",
+                column: "StatisticId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subscribe_OfficeId",
@@ -343,9 +494,34 @@ namespace SmartWork.Migrations
                 column: "OfficeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Subscribe_SubscribeDetailId",
+                table: "Subscribe",
+                column: "SubscribeDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Subscribe_UserId",
+                table: "Subscribe",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubscribeDetail_OfficeId",
+                table: "SubscribeDetail",
+                column: "OfficeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TechnicalEquipment_EquipmentId",
                 table: "TechnicalEquipment",
                 column: "EquipmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VisitStatistic_StatisticId",
+                table: "VisitStatistic",
+                column: "StatisticId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VisitStatistic_UserId",
+                table: "VisitStatistic",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -369,25 +545,40 @@ namespace SmartWork.Migrations
                 name: "MaterialEquipment");
 
             migrationBuilder.DropTable(
+                name: "RoomStatistic");
+
+            migrationBuilder.DropTable(
                 name: "Subscribe");
 
             migrationBuilder.DropTable(
                 name: "TechnicalEquipment");
 
             migrationBuilder.DropTable(
+                name: "VisitStatistic");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "SubscribeDetail");
+
+            migrationBuilder.DropTable(
+                name: "Equipment");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Equipment");
+                name: "Statistic");
 
             migrationBuilder.DropTable(
                 name: "Room");
 
             migrationBuilder.DropTable(
                 name: "Office");
+
+            migrationBuilder.DropTable(
+                name: "Company");
         }
     }
 }

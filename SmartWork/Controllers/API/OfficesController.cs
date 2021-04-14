@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartWork.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,9 +16,12 @@ namespace SmartWork.Controllers.API
     public class OfficesController : ControllerBase
     {
         ApplicationContext db;
-        public OfficesController(ApplicationContext context)
+        private readonly IWebHostEnvironment _env;
+        public OfficesController(ApplicationContext context, IWebHostEnvironment env)
         {
             db = context;
+            _env = env;
+
             if (!db.Office.Any())
             {
                 db.Office.Add(new Office
@@ -115,6 +120,41 @@ namespace SmartWork.Controllers.API
             db.Office.Remove(Office);
             await db.SaveChangesAsync();
             return Ok(Office);
+        }
+
+        [HttpGet("/Offices/GetOfficeRooms/{id}")]
+        public async Task<ActionResult<IEnumerable<Room>>> GetOfficeRooms(int id)
+        {
+            return await db.Room.Where(r => r.OfficeId == id).ToListAsync();
+        }
+
+        [HttpPost("/Offices/SaveFile/{id}")]
+        public async Task<IActionResult> SaveFile(int id)
+        {
+            try
+            {
+                Office office = await db.Office.FirstOrDefaultAsync(o => o.Id == id);
+                var httpRequest = Request.Form;
+                var postedFile = httpRequest.Files[0];
+                string filename = postedFile.FileName;
+                string newFileName = $"{office.Id}_{office.OfficeName}.png";
+                var physicalPath = _env.ContentRootPath + "/Photos/Office/" + newFileName;
+
+                using (var stream = new FileStream(physicalPath, FileMode.Create))
+                {
+                    await postedFile.CopyToAsync(stream);
+                }
+                office.PhotoFileName = newFileName;
+                db.Entry(office).State = EntityState.Modified;
+                db.Office.Update(office);
+                await db.SaveChangesAsync();
+
+                return new JsonResult(newFileName);
+            }
+            catch
+            {
+                return new JsonResult("default_office_image.png");
+            }
         }
     }
 }

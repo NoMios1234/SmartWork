@@ -160,10 +160,16 @@ namespace SmartWork.Migrations
                     b.Property<string>("CompanyAddress")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CompanyDescription")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CompanyPhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhotoFileName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -242,6 +248,9 @@ namespace SmartWork.Migrations
                     b.Property<string>("OfficePhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PhotoFileName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
@@ -264,6 +273,9 @@ namespace SmartWork.Migrations
 
                     b.Property<int>("OfficeId")
                         .HasColumnType("int");
+
+                    b.Property<string>("PhotoFileName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoomName")
                         .HasColumnType("nvarchar(max)");
@@ -300,10 +312,15 @@ namespace SmartWork.Migrations
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
+                    b.Property<string>("RoomStatisticName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("StatisticId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RoomId");
 
                     b.HasIndex("StatisticId");
 
@@ -317,7 +334,10 @@ namespace SmartWork.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Description")
+                    b.Property<string>("StatisticDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StatisticName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -332,23 +352,62 @@ namespace SmartWork.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Desc")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("EndSubscribe")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("OfficeId")
                         .HasColumnType("int");
 
-                    b.Property<long>("Price")
+                    b.Property<DateTime>("StartSubscribe")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SubscribeDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SubscribeDetailId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SubscribeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OfficeId");
+
+                    b.HasIndex("SubscribeDetailId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Subscribe");
+                });
+
+            modelBuilder.Entity("SmartWork.Models.SubscribeDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("OfficeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SubscribeDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SubscribeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("SubscribePrice")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OfficeId");
 
-                    b.ToTable("Subscribe");
+                    b.ToTable("SubscribeDetail");
                 });
 
             modelBuilder.Entity("SmartWork.Models.TechnicalEquipment", b =>
@@ -471,11 +530,16 @@ namespace SmartWork.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("VisitStatisticName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("StatisticId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("VisitStatistic");
                 });
@@ -569,18 +633,51 @@ namespace SmartWork.Migrations
 
             modelBuilder.Entity("SmartWork.Models.RoomStatistic", b =>
                 {
-                    b.HasOne("SmartWork.Models.Statistic", null)
+                    b.HasOne("SmartWork.Models.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SmartWork.Models.Statistic", "Statistic")
                         .WithMany("RoomStatistics")
                         .HasForeignKey("StatisticId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Room");
+
+                    b.Navigation("Statistic");
                 });
 
             modelBuilder.Entity("SmartWork.Models.Subscribe", b =>
                 {
-                    b.HasOne("SmartWork.Models.Office", "Office")
+                    b.HasOne("SmartWork.Models.Office", null)
                         .WithMany("Subscribes")
                         .HasForeignKey("OfficeId");
+
+                    b.HasOne("SmartWork.Models.SubscribeDetail", "SubscribeDetail")
+                        .WithMany()
+                        .HasForeignKey("SubscribeDetailId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SmartWork.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("SubscribeDetail");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SmartWork.Models.SubscribeDetail", b =>
+                {
+                    b.HasOne("SmartWork.Models.Office", "Office")
+                        .WithMany()
+                        .HasForeignKey("OfficeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Office");
                 });
@@ -596,11 +693,19 @@ namespace SmartWork.Migrations
 
             modelBuilder.Entity("SmartWork.Models.VisitStatistic", b =>
                 {
-                    b.HasOne("SmartWork.Models.Statistic", null)
+                    b.HasOne("SmartWork.Models.Statistic", "Statistic")
                         .WithMany("VisitStatistics")
                         .HasForeignKey("StatisticId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("SmartWork.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Statistic");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SmartWork.Models.Company", b =>

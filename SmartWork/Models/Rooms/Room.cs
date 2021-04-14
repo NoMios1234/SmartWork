@@ -19,6 +19,7 @@ namespace SmartWork.Models
         public int Light { get; set; } // in lumens
         public double Square { get; set; }
         public int OfficeId { get; set; }
+        public string PhotoFileName { get; set; }
         public virtual ICollection<Equipment> Equipments { get; set; }
     }
 }

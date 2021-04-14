@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartWork.Models;
-using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,12 +14,14 @@ namespace SmartWork.Controllers.API
     public class CompaniesController : ControllerBase
     {
         ApplicationContext db;
+        private readonly IWebHostEnvironment _env;
 
-        public CompaniesController(ApplicationContext context)
+        public CompaniesController(ApplicationContext context, IWebHostEnvironment env)
         {
             db = context;
+            _env = env;
 
-            if(!db.Company.Any())
+            if (!db.Company.Any())
             {
                 db.Company.Add(new Company
                 {
@@ -58,6 +60,38 @@ namespace SmartWork.Controllers.API
             return await db.Company.ToListAsync();
         }
 
+        // POST api/companies
+        [HttpPost]
+        public async Task<ActionResult<Company>> Post(Company company)
+        {
+            if (company == null)
+            {
+                return BadRequest();
+            }
+
+            db.Company.Add(company);
+            await db.SaveChangesAsync();
+            return Ok(company);
+        }
+
+        // PUT api/companies/
+        [HttpPut]
+        public async Task<ActionResult<Company>> Put(Company company)
+        {
+            if (company == null)
+            {
+                return BadRequest();
+            }
+            if (!db.Company.Any(o => o.Id == company.Id))
+            {
+                return NotFound();
+            }
+
+            db.Update(company);
+            await db.SaveChangesAsync();
+            return Ok(company);
+        }
+
         // DELETE api/companies/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Company>> Delete(int id)
@@ -70,6 +104,41 @@ namespace SmartWork.Controllers.API
             db.Company.Remove(Company);
             await db.SaveChangesAsync();
             return Ok(Company);
+        }
+
+        [HttpGet("/Companies/GetCompanyOffices/{id}")]
+        public async Task<ActionResult<IEnumerable<Office>>> GetCompanyOffices(int id)
+        {
+            return await db.Office.Where(o => o.CompanyId == id).ToListAsync();
+        }
+
+        [HttpPost("/Companies/SaveFile/{id}")]
+        public async Task<IActionResult> SaveFile(int id)
+        {
+            try
+            {
+                Company company = await db.Company.FirstOrDefaultAsync(cp => cp.Id == id);
+                var httpRequest = Request.Form;
+                var postedFile = httpRequest.Files[0];
+                string filename = postedFile.FileName;
+                string newFileName = $"{company.Id}_{company.CompanyName}.png";
+                var physicalPath = _env.ContentRootPath + "/Photos/Company/" + newFileName;
+
+                using (var stream = new FileStream(physicalPath, FileMode.Create))
+                {
+                    await postedFile.CopyToAsync(stream);
+                }
+                company.PhotoFileName = newFileName;
+                db.Entry(company).State = EntityState.Modified;
+                db.Company.Update(company);
+                await db.SaveChangesAsync();
+
+                return new JsonResult(newFileName);
+            }
+            catch
+            {
+                return new JsonResult("default_company_image.png");
+            }
         }
     }
 }

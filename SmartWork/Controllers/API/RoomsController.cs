@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartWork.Models;
@@ -14,9 +15,12 @@ namespace SmartWork.Controllers.API
     public class RoomsController : ControllerBase
     {
         ApplicationContext db;
-        public RoomsController(ApplicationContext context)
+        private readonly IWebHostEnvironment _env;
+        public RoomsController(ApplicationContext context, IWebHostEnvironment env)
         {
             db = context;
+            _env = env;
+
             if (!db.Room.Any())
             {
                 db.Room.Add(new Room
@@ -111,6 +115,12 @@ namespace SmartWork.Controllers.API
             db.Room.Remove(Room);
             await db.SaveChangesAsync();
             return Ok(Room);
+        }
+
+        [HttpGet("/Rooms/GetRoomEquipment/{id}")]
+        public async Task<ActionResult<IEnumerable<Equipment>>> GetRoomEquipment(int id)
+        {
+            return await db.Equipment.Where(eq => eq.RoomId == id).ToListAsync();
         }
     }
 }

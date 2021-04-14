@@ -13,7 +13,8 @@ namespace SmartWork.Models
             VisitStatistics = new HashSet<VisitStatistic>();
         }
         public int Id { get; set; }
-        public string Description { get; set; }
+        public string StatisticName{ get; set; }
+        public string StatisticDescription { get; set; }
         public ICollection<RoomStatistic> RoomStatistics { get; set; }
         public ICollection<VisitStatistic> VisitStatistics { get; set; }
     }
