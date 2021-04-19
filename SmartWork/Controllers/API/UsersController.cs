@@ -14,14 +14,16 @@ namespace SmartWork.Controllers.API
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly ApplicationContext db;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
 
-        public UsersController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public UsersController(UserManager<User> userManager, SignInManager<User> signInManager, ApplicationContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            db = context;
         }
 
         [HttpGet]
@@ -38,6 +40,16 @@ namespace SmartWork.Controllers.API
             if (user == null)
                 return NotFound();
             return new ObjectResult(user);
+        }
+
+        [HttpGet("GetUserSubscribes/{id}")]
+        public async Task<ActionResult<User>> GetUserSubscribes(string id)
+        {
+            User user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id.Equals(id));
+            if (user == null)
+                return NotFound();
+            List<Subscribe> subscribes = await db.Subscribe.Where(s => s.UserId == id).ToListAsync();
+            return new ObjectResult(subscribes);
         }
 
         // POST api/users

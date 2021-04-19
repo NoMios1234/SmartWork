@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartWork.Models;
+using SmartWork.ViewModels.CompanyViewModel;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -62,16 +63,28 @@ namespace SmartWork.Controllers.API
 
         // POST api/companies
         [HttpPost]
-        public async Task<ActionResult<Company>> Post(Company company)
+        public async Task<ActionResult<Company>> Post(AddCompanyViewModel model)
         {
-            if (company == null)
+            if (model == null)
             {
                 return BadRequest();
             }
-
-            db.Company.Add(company);
-            await db.SaveChangesAsync();
-            return Ok(company);
+            if (ModelState.IsValid)
+            {
+                Company company = new Company
+                {
+                    CompanyName = model.CompanyName,
+                    CompanyAddress = model.CompanyAddress,
+                    CompanyDescription = model.CompanyDescription,
+                    CompanyPhoneNumber = model.CompanyPhoneNumber,
+                    PhotoFileName = model.PhotoFileName
+                };
+                db.Company.Add(company);
+                await db.SaveChangesAsync();
+                return Ok(company);
+            }
+            else
+                return BadRequest();   
         }
 
         // PUT api/companies/

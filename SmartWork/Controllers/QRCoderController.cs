@@ -41,7 +41,5 @@ namespace SmartWork.Controllers
                 return stream.ToArray();
             }
         }
-    }
-
-   
+    }   
 }

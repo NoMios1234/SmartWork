@@ -56,13 +56,13 @@ namespace SmartWork.Controllers.API
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Statistic>>> Get()
         {
-            Statistic Statistic = new Statistic();
-            List<Statistic> Statistics = await db.Statistic.ToListAsync();
-            foreach (var stat in Statistics)
-            {
-                stat.RoomStatistics = await db.RoomStatistic.Where(r => r.StatisticId == stat.Id).ToListAsync();
-                stat.VisitStatistics = await db.VisitStatistic.Where(v => v.StatisticId == stat.Id).ToListAsync();
-            }
+            //Statistic Statistic = new Statistic();
+            //List<Statistic> Statistics = await db.Statistic.ToListAsync();
+            //foreach (var stat in Statistics)
+            //{
+            //    stat.RoomStatistics = await db.RoomStatistic.Where(r => r.StatisticId == stat.Id).ToListAsync();
+            //    stat.VisitStatistics = await db.VisitStatistic.Where(v => v.StatisticId == stat.Id).ToListAsync();
+            //}
             return await db.Statistic.ToListAsync();
         }
 
@@ -71,8 +71,8 @@ namespace SmartWork.Controllers.API
         public async Task<ActionResult<IEnumerable<Statistic>>> Get(int id)
         {
             Statistic Statistic = await db.Statistic.Where(st => st.Id == id).FirstOrDefaultAsync();
-            Statistic.RoomStatistics = await db.RoomStatistic.Where(r => r.StatisticId == id).ToListAsync();
-            Statistic.VisitStatistics = await db.VisitStatistic.Where(v => v.StatisticId == id).ToListAsync();
+            //Statistic.RoomStatistics = await db.RoomStatistic.Where(r => r.StatisticId == id).ToListAsync();
+            //Statistic.VisitStatistics = await db.VisitStatistic.Where(v => v.StatisticId == id).ToListAsync();
             return new ObjectResult(Statistic);
         }
 
