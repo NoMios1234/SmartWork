@@ -1,0 +1,35 @@
+<div class="form-group">
+    <label class="col-sm-12 col-form-label">Company name</label>
+    <div class="col-sm-12">
+        <input type="text" class="form-control" [(ngModel)]="companyName"
+        placeholder="Enter name of company">
+    </div>
+    <label class="col-sm-12 col-form-label">Company address</label>
+    <div class="col-sm-12">
+        <input type="text" class="form-control" [(ngModel)]="companyAddress"
+        placeholder="Enter address of company">
+    </div>
+    <label class="col-sm-12 col-form-label">Phone number</label>
+    <div class="col-sm-12">
+        <input type="text" class="form-control" [(ngModel)]="companyPhoneNumber"
+        placeholder="Enter phone number of company">
+    </div>
+    <label class="col-sm-12 col-form-label">Company description</label>
+    <div class="col-sm-12">
+        <input type="text" class="form-control" [(ngModel)]="companyDescription"
+        placeholder="Enter description of company">
+    </div>
+    <div class="ml-3 bd-highlight">
+        <img [src]=photoFilePath height="250px;" width="200px;">
+        <input type="file" (change)="uploadPhoto($event)"  class="mt-2"/>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" (click)="addCompany()" *ngIf="company.id==0" class="btn btn-primary">
+        Add
+    </button>
+    <button type="button" (click)="updateCompany()" *ngIf="company.id!=0" class="btn btn-primary">
+        Update
+    </button>
+</div>
