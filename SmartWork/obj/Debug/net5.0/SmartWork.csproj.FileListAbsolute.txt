@@ -110,3 +110,4 @@ C:\Users\Dmitry\source\repos\SmartWork\SmartWork\obj\Debug\net5.0\SmartWork.pdb
 C:\Users\Dmitry\source\repos\SmartWork\SmartWork\obj\Debug\net5.0\SmartWork.genruntimeconfig.cache
 C:\Users\Dmitry\source\repos\SmartWork\SmartWork\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
 C:\Users\Dmitry\source\repos\SmartWork\SmartWork\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\Dmitry\source\repos\SmartWork\SmartWork\obj\Debug\net5.0\SmartWork.csprojAssemblyReference.cache

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartWork.Models;
 using SmartWork.ViewModels.CompanyViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -125,30 +126,25 @@ namespace SmartWork.Controllers.API
             return await db.Office.Where(o => o.CompanyId == id).ToListAsync();
         }
 
-        [HttpPost("/Companies/SaveFile/{id}")]
-        public async Task<IActionResult> SaveFile(int id)
+        [Route("SaveFile")]
+        [HttpPost]
+        public JsonResult SaveFile()
         {
             try
-            {
-                Company company = await db.Company.FirstOrDefaultAsync(cp => cp.Id == id);
+            {            
                 var httpRequest = Request.Form;
                 var postedFile = httpRequest.Files[0];
                 string filename = postedFile.FileName;
-                string newFileName = $"{company.Id}_{company.CompanyName}.png";
-                var physicalPath = _env.ContentRootPath + "/Photos/Company/" + newFileName;
+                var physicalPath = _env.WebRootPath + "/Photos/Company/" + filename;
 
                 using (var stream = new FileStream(physicalPath, FileMode.Create))
                 {
-                    await postedFile.CopyToAsync(stream);
+                    postedFile.CopyTo(stream);
                 }
-                company.PhotoFileName = newFileName;
-                db.Entry(company).State = EntityState.Modified;
-                db.Company.Update(company);
-                await db.SaveChangesAsync();
 
-                return new JsonResult(newFileName);
+                return new JsonResult(filename);
             }
-            catch
+            catch (Exception)
             {
                 return new JsonResult("default_company_image.png");
             }
