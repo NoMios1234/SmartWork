@@ -5,8 +5,10 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class SharedService {
 
+  isAuthorized:boolean = false;
   readonly APIUrl = "https://localhost:44334/api";
   readonly PhotoUrl = "https://localhost:44334/wwwroot/Photos";
  

@@ -13,6 +13,11 @@ import { OfficeComponent } from './office/office.component';
 import { ShowOfficeComponent } from './office/show-office/show-office.component';
 import { AddEditOfficeComponent } from './office/add-edit-office/add-edit-office.component';
 import { SharedService } from 'src/app/shared/shared.service';
+import { AuthorizationComponent } from './authorization/authorization.component';
+import { LoginComponent } from './authorization/login/login.component';
+import { RegisterComponent } from './authorization/register/register.component';
+import { ProfileComponent } from './authorization/profile/profile.component';
+import { LoginMenuComponent } from './authorization/login-menu/login-menu.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +27,12 @@ import { SharedService } from 'src/app/shared/shared.service';
     AddEditCompanyComponent,
     OfficeComponent,
     ShowOfficeComponent,
-    AddEditOfficeComponent
+    AddEditOfficeComponent,
+    AuthorizationComponent,
+    LoginComponent,
+    RegisterComponent,
+    ProfileComponent,
+    LoginMenuComponent
   ],
   imports: [
     BrowserModule,
