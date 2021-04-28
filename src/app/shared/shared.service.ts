@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 export class SharedService {
 
   readonly APIUrl = "https://localhost:44334/api";
-  readonly PhotoUrl = "https://localhost:44334/Photos";
+  readonly PhotoUrl = "https://localhost:44334/wwwroot/Photos";
+ 
 
   constructor(private http:HttpClient) { }
 
@@ -22,10 +23,11 @@ export class SharedService {
     return this.http.put(this.APIUrl+'/Companies', company);
   }
   deleteCompany(id:any){
-    return this.http.delete(this.APIUrl+'/Companies/', id);
+    console.log('delete id:' + id);
+    return this.http.delete(this.APIUrl+'/Companies/' + id);
   }
   addCompanyPhoto(val:any){
-    return this.http.post(this.PhotoUrl+'/Companies/SaveFile', val)
+    return this.http.post(this.APIUrl+'/Companies/SaveFile', val)
   }
   getOfficeList():Observable<any[]>{
     return this.http.get<any>(this.APIUrl+'/Offices');
@@ -37,10 +39,10 @@ export class SharedService {
     return this.http.put(this.APIUrl+'/Offices', office);
   }
   deleteOffice(id:any){
-    return this.http.delete(this.APIUrl+'/Offices/', id);
+    return this.http.delete(this.APIUrl+'/Offices/' + id);
   }
   addOfficePhoto(val:any){
-    return this.http.post(this.PhotoUrl+'/Offices/SaveFile', val)
+    return this.http.post(this.APIUrl+'/Offices/SaveFile', val)
   }
   getOfficeRooms(id:any){
     return this.http.get<any>(this.APIUrl+'/Offices/GetOfficeRooms', id);
