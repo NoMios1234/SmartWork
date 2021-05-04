@@ -51,7 +51,9 @@ import { ToastrModule } from 'ngx-toastr';
     ReactiveFormsModule,
     NgbModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      progressBar: true
+    }),
   ],
   providers: [SharedService, UserService],
   bootstrap: [AppComponent]

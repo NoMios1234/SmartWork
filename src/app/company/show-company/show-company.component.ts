@@ -14,7 +14,7 @@ export class ShowCompanyComponent implements OnInit {
   ModalTitle:string;
   ActivateAddEditCompany:boolean=false;
   company:any;
-  companyImage=this.service.PhotoUrl + '/Company/';
+  companyPathImage=this.service.PhotoUrl + '/Company/';
 
   ngOnInit(): void {
     this.refreshCompanytList();
@@ -57,7 +57,7 @@ export class ShowCompanyComponent implements OnInit {
   refreshCompanytList(){ 
     this.service.getCompanyList().subscribe(data=>{
       data.forEach(element => {
-        element.PhotoFileFullPath = this.companyImage + element.PhotoFileName;
+        element.PhotoFileFullPath = this.companyPathImage + element.PhotoFileName;
       });
       this.CompanyList = data;
     });

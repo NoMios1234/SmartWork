@@ -17,9 +17,9 @@ export class UserService {
 
   formModel = this.fb.group({
     Email : ['', [Validators.email, Validators.required]],
-    UserName : ['', Validators.required],
-    UserSurname : [''],
-    UserMiddleName : [''],
+    FirstName : ['', Validators.required],
+    SecondName : [''],
+    Patronymic : [''],
     PhoneNumber: ['', Validators.pattern("[0-9]{3}[0-9]{3}[0-9]{4}")],
     Passwords : this.fb.group({
       Password : ['', [Validators.required, Validators.minLength(8)]],
@@ -41,9 +41,9 @@ export class UserService {
   register() {
     var body = {
       Email: this.formModel.value.Email,
-      UserName: this.formModel.value.UserName,
-      UserSurname: this.formModel.value.UserSurname,
-      UserMiddleName: this.formModel.value.UserMiddleName,
+      FirstName: this.formModel.value.FirstName,
+      SecondName: this.formModel.value.SecondName,
+      Patronymic: this.formModel.value.Patronymic,
       PhoneNumber: this.formModel.value.PhoneNumber,
       Password: this.formModel.value.Passwords.Password,
       PasswordConfirm: this.formModel.value.Passwords.PasswordConfirm
