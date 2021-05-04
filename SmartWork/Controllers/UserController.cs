@@ -51,9 +51,9 @@ namespace SmartWork.Controllers
                     {
                         Email = model.Email,
                         UserName = model.Email,
-                        Name = model.UserName,
-                        Surname = model.UserSurname,
-                        MiddleName = model.UserMiddleName,
+                        FirstName = model.FirstName,
+                        SecondName = model.SecondName,
+                        Patronymic = model.Patronymic,
                         PhoneNumber = model.PhoneNumber
                     };
 
@@ -90,9 +90,9 @@ namespace SmartWork.Controllers
                 {
                     Id = user.Id,
                     Email = user.Email,
-                    UserName = user.Name,
-                    UserSurname = user.Surname,
-                    UserMiddleName = user.MiddleName,
+                    FirstName = user.FirstName,
+                    SecondName = user.SecondName,
+                    Patronymic = user.Patronymic,
                     PhoneNumber = user.PhoneNumber
                 };
                 return View(model);
@@ -112,9 +112,9 @@ namespace SmartWork.Controllers
                     if (user != null)
                     {
                         user.Email = model.Email;
-                        user.Name = model.UserName;
-                        user.Surname = model.UserSurname;
-                        user.MiddleName = model.UserMiddleName;
+                        user.FirstName = model.FirstName;
+                        user.SecondName = model.SecondName;
+                        user.Patronymic = model.Patronymic;
                         user.PhoneNumber = model.PhoneNumber;
 
                         var result = await _userManager.UpdateAsync(user);

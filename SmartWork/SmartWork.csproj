@@ -5,10 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\Photos\Company\city.png" />
-    <None Include="wwwroot\Photos\Company\default_company_image.png" />
-    <None Include="wwwroot\Photos\Company\modern-buildings-icon-city-icon-colorful-round-business-center-vector-illustration-54075720.jpg" />
-    <None Include="wwwroot\Photos\Office\default_office_image.png" />
+    <Content Include="Photos\Company\city.png" />
+    <Content Include="Photos\Company\company.png" />
+    <Content Include="Photos\Company\default_company_image.png" />
+    <Content Include="Photos\Company\isometric-3d-icon-city-urban-area-with-a-lot-of-houses_70347-3522.jpg" />
+    <Content Include="Photos\Company\modern-buildings-icon-city-icon-colorful-round-business-center-vector-illustration-54075720.jpg" />
+    <Content Include="Photos\Office\default_office_image.png" />
   </ItemGroup>
   
   <ItemGroup>
@@ -19,10 +21,13 @@
     <PackageReference Include="Microsoft.AspNet.WebApi.HelpPage" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Owin" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNet.WebApi.WebHost" Version="5.2.7" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="5.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -30,7 +35,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="QRCoder" Version="1.4.1" />
   </ItemGroup>
 

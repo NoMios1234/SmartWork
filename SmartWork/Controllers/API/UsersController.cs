@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Owin.Security;
 using SmartWork.Models;
 using SmartWork.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SmartWork.Controllers.API
@@ -33,8 +35,9 @@ namespace SmartWork.Controllers.API
         }
 
         // GET api/users/5
+        [Route("GetUserById")]
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> Get(string id)
+        public async Task<ActionResult<User>> GetUserById(string id)
         {
             User user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id.Equals(id));
             if (user == null)
@@ -42,6 +45,7 @@ namespace SmartWork.Controllers.API
             return new ObjectResult(user);
         }
 
+        // GET api/users/GetUserSubscribes/5
         [HttpGet("GetUserSubscribes/{id}")]
         public async Task<ActionResult<User>> GetUserSubscribes(string id)
         {
@@ -52,57 +56,54 @@ namespace SmartWork.Controllers.API
             return new ObjectResult(subscribes);
         }
 
-        // POST api/users
+        // POST api/users/register
+        [Route("Register")]
         [HttpPost]
-        public async Task<ActionResult<User>> Post(CreateUserViewModel model)
+        public async Task<ActionResult<User>> UserRegister(CreateUserViewModel model)
         {
-            if (ModelState.IsValid)
+            User user = new User
             {
-                User user = new User
-                {
-                    Email = model.Email,
-                    UserName = model.Email,
-                    Name = model.UserName,
-                    Surname = model.UserSurname,
-                    MiddleName = model.UserMiddleName,
-                    PhoneNumber = model.PhoneNumber
-                };
+                Email = model.Email,
+                UserName = model.Email,
+                FirstName = model.FirstName,
+                SecondName = model.SecondName,
+                Patronymic = model.Patronymic,
+                PhoneNumber = model.PhoneNumber
+            };
+            try
+            {
                 var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(user, "user");
-                    return Ok(user);
-                }
-                else
-                    return BadRequest();
+                await _userManager.AddToRoleAsync(user, "user");
+                return Ok(result);
             }
-            else
-                return BadRequest();
+            catch
+            {
+                throw;
+            }               
         }
 
-        // PUT api/users/
+        // POST api/users/update
+        [Route("Update")]
         [HttpPut]
-        public async Task<ActionResult<User>> Put(UserInfoViewModel model)
+        public async Task<ActionResult<User>> UserUpdate(EditUserViewModel model)
         {
             User user = await _userManager.FindByIdAsync(model.Id);
-            if (user != null)
-            {
-                user.Email = model.Email;
-                user.Name = model.UserName;
-                user.Surname = model.UserSurname;
-                user.MiddleName = model.UserMiddleName;
-                user.PhoneNumber = model.PhoneNumber;
 
+            user.Email = model.Email;
+            user.FirstName = model.FirstName;
+            user.SecondName = model.SecondName;
+            user.Patronymic = model.Patronymic;
+            user.PhoneNumber = model.PhoneNumber;
+
+            try
+            {
                 var result = await _userManager.UpdateAsync(user);
-                if (result.Succeeded)
-                {
-                    return Ok(user);
-                }
-                else
-                    return BadRequest();
+                return Ok(result);
             }
-            else
-                return BadRequest();
+            catch
+            {
+                throw;
+            }
         }
 
         // DELETE api/users/5
@@ -116,5 +117,45 @@ namespace SmartWork.Controllers.API
             }
             return Ok(user);
         }
+
+        [Route("Login")]
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result =
+                    await _signInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(db.Users.Where(u => u.Email == model.Email).FirstOrDefault(), true);
+                    return new ObjectResult(true);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            return BadRequest();
+        }
+
+        [Route("IsAuthorized")]
+        [HttpGet]
+        public ObjectResult IsAuthorized()
+       {
+
+            return new ObjectResult(User.Identity.IsAuthenticated);
+    
+        }
+
+        [Route("Logout")]
+        [HttpPost]
+        public async Task<ObjectResult> Logout()
+        {
+            // удаляем аутентификационные куки
+            await _signInManager.SignOutAsync();
+            return new ObjectResult(true);
+        }
+
     }
 }

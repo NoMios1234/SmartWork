@@ -25,7 +25,12 @@ namespace SmartWork
         {
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ConnectionString")));
-            services.AddIdentity<User, IdentityRole>(options => {
+
+            //services.AddDefaultIdentity<IdentityUser>()
+            //    .AddEntityFrameworkStores<ApplicationContext>();
+
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
                 options.Password.RequiredLength = 8;   // минимальная длина
                 options.Password.RequireNonAlphanumeric = true;   // требуются ли не алфавитно-цифровые символы
                 options.Password.RequireLowercase = true; // требуются ли символы в нижнем регистре
@@ -46,7 +51,7 @@ namespace SmartWork
 
             //Enable CORS   
             services.AddCors(c => {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod()
+                c.AddPolicy("AllowOrigin", options => options.WithOrigins("https://localhost:4200/").AllowAnyMethod()
                 .AllowAnyHeader());
             });
         }
@@ -68,9 +73,10 @@ namespace SmartWork
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
-                RequestPath = "/wwwroot"
-            });
+                Path.Combine(Directory.GetCurrentDirectory(), "Photos")),
+                RequestPath = "/Photos"
+            }
+            );
             app.UseRouting();
             app.UseAuthentication(); 
             app.UseAuthorization();

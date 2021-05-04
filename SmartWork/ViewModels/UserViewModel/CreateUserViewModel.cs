@@ -12,19 +12,15 @@ namespace SmartWork.ViewModels
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
-        [Display(Name = "Name")]
-        public string UserName { get; set; }
+        [Display(Name = "First name")]
+        public string FirstName { get; set; }
 
-        [Required]
-        [Display(Name = "Surname")]
-        public string UserSurname { get; set; }
+        [Display(Name = "Second name")]
+        public string SecondName { get; set; }
 
-        [Required]
-        [Display(Name = "Middle name")]
-        public string UserMiddleName { get; set; }
+        [Display(Name = "Patronymic")]
+        public string Patronymic { get; set; }
 
-        [Required]
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
 
