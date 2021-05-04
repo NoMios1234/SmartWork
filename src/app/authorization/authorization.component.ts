@@ -10,10 +10,12 @@ export class AuthorizationComponent implements OnInit {
 
   constructor(private service:SharedService) { }
 
-  isAuthorized:boolean = this.service.isAuthorized;
+  isAuthorized:boolean;
 
   ngOnInit(): void {
+    
+    this.service.getAuthorized().subscribe(res =>{
+
+    });
   }
-
-
 }

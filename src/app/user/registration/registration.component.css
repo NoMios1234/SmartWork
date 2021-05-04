@@ -1,0 +1,8 @@
+div.form-group.required>label:first-child:after{
+    content:'*';
+    color: red;
+    padding-left: 5px;
+}
+#testidback{
+    background-color: gainsboro;
+}

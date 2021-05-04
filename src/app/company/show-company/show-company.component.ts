@@ -60,7 +60,6 @@ export class ShowCompanyComponent implements OnInit {
         element.PhotoFileFullPath = this.companyImage + element.PhotoFileName;
       });
       this.CompanyList = data;
-      console.log(this.CompanyList);
     });
   }
 }

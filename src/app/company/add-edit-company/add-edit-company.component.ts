@@ -19,22 +19,19 @@ export class AddEditCompanyComponent implements OnInit {
   PhotoFileName:string;
   PhotoFilePath:string;
 
-  DepartmentsList:any=[];
 
   ngOnInit(): void {
     this.loadCompanyList();
-    console.log(this.company.Id);
-    console.log(this.company);
   }
 
   loadCompanyList(){
-      this.Id=this.company.Id;
-      this.CompanyName=this.company.CompanyName;
-      this.CompanyAddress=this.company.CompanyAddress;
-      this.CompanyPhoneNumber=this.company.CompanyPhoneNumber;
-      this.CompanyDescription=this.company.CompanyDescription;
-      this.PhotoFileName=this.company.PhotoFileName;
-      this.PhotoFilePath=this.service.PhotoUrl+'/Company/'+this.PhotoFileName;   
+    this.Id=this.company.Id;
+    this.CompanyName=this.company.CompanyName;
+    this.CompanyAddress=this.company.CompanyAddress;
+    this.CompanyPhoneNumber=this.company.CompanyPhoneNumber;
+    this.CompanyDescription=this.company.CompanyDescription;
+    this.PhotoFileName=this.company.PhotoFileName;
+    this.PhotoFilePath=this.service.PhotoUrl+'/Company/'+this.PhotoFileName;   
   }
 
   addCompany(){
@@ -46,9 +43,8 @@ export class AddEditCompanyComponent implements OnInit {
       CompanyDescription:this.CompanyDescription,       
       PhotoFileName:this.PhotoFileName
     };
-    console.log(val);
     this.service.addCompany(val).subscribe(res=>{
-      alert(res.toString());
+      alert('Added');
     });
   }
 
@@ -63,7 +59,7 @@ export class AddEditCompanyComponent implements OnInit {
     };
 
     this.service.updateCompany(val).subscribe(res=>{
-      alert(res.toString());
+      alert('Updated');
     });
   }
 
@@ -71,12 +67,10 @@ export class AddEditCompanyComponent implements OnInit {
     var file=event.target.files[0];
     const formData:FormData=new FormData();
     formData.append('uploadedFile',file,file.name);
-    console.log(formData);
     this.service.addCompanyPhoto(formData).subscribe((data:any)=>{
       console.log(data);
       this.PhotoFileName=data.toString();
       this.PhotoFilePath=this.service.PhotoUrl+'/Company/'+this.PhotoFileName;
-      console.log(this.PhotoFilePath);
     })
   }
 }

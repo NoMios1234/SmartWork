@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedService } from 'src/app/shared/shared.service';
 
 @Component({
   selector: 'app-profile',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service:SharedService) { }
 
   ModalTitle:string = "Profile";
 
@@ -15,7 +16,16 @@ export class ProfileComponent implements OnInit {
   }
 
   profileClick(){
+    console.log(this.service.getAuthorized());
 
+  }
+  logoutClick(){
+    this.service.logoutUser().subscribe(res=>{
+      console.log(res);
+      alert("Logout");
+      //this.service.isAuthorized = this.service.getAuthorized();
+      console.log(this.service.getAuthorized());
+    })
   }
   closeClick(){
 

@@ -8,11 +8,9 @@ import { Observable } from 'rxjs';
 
 export class SharedService {
 
-  isAuthorized:boolean = false;
   readonly APIUrl = "https://localhost:44334/api";
   readonly PhotoUrl = "https://localhost:44334/wwwroot/Photos";
  
-
   constructor(private http:HttpClient) { }
 
   getCompanyList():Observable<any[]>{
@@ -25,7 +23,6 @@ export class SharedService {
     return this.http.put(this.APIUrl+'/Companies', company);
   }
   deleteCompany(id:any){
-    console.log('delete id:' + id);
     return this.http.delete(this.APIUrl+'/Companies/' + id);
   }
   addCompanyPhoto(val:any){
@@ -48,5 +45,27 @@ export class SharedService {
   }
   getOfficeRooms(id:any){
     return this.http.get<any>(this.APIUrl+'/Offices/GetOfficeRooms', id);
+  }
+
+  getUserList():Observable<any[]>{
+    return this.http.get<any>(this.APIUrl+'/Users');
+  }
+  addUser(user:any){
+    return this.http.post(this.APIUrl+'/Users', user);
+  }
+  loginUser(user:any){
+    return this.http.post(this.APIUrl+'/Users/Login', user);
+  }
+  logoutUser(){
+    return this.http.post(this.APIUrl+'/Users/Logout', null);
+  }
+  updateUser(user:any){
+    return this.http.put(this.APIUrl+'/Users', user);
+  }
+  deleteUser(id:any){
+    return this.http.delete(this.APIUrl+'/Users/' + id);
+  }
+  getAuthorized(){
+    return this.http.get<any>(this.APIUrl+'/Users/IsAuthorized');
   }
 }

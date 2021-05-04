@@ -10,7 +10,6 @@ export class LoginMenuComponent implements OnInit {
 
   constructor(private service:SharedService) { }
 
-
   ModalTitle:string;
   login:any;
   register:any;
@@ -22,15 +21,30 @@ export class LoginMenuComponent implements OnInit {
   }
 
   loginClick(){
+    this.login={
+      Email:"",
+      Password:"" 
+    }
+    this.ModalTitle = "login";
     this.ActivateLoginForm = true;
     this.ActivateRegisterForm = false;
   }
   registerClick(){
+    this.register={
+      Email:"",     
+      UserName:"",
+      UserSurname:"",
+      UserMiddleName:"",
+      PhoneNumber:"",
+      Password:"",
+      PasswordConfirm:""
+    }
+    this.ModalTitle = "register";
     this.ActivateRegisterForm = true;
     this.ActivateLoginForm = false;
   }
   closeClick(){
-
+    this.ActivateLoginForm = false;
+    this.ActivateRegisterForm = false;
   }
-
 }

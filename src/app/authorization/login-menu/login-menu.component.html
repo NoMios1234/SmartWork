@@ -1,35 +1,50 @@
 <div class="container">
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary m-2" 
-        data-toggle="modal" data-target="#exampleModal"
+        data-toggle="modal" data-target="#exampleModal2"
         (click)="loginClick()"
         data-backdrop="static" data-keyboard="false">
         Log in
     </button> 
     <button type="button" class="btn btn-primary m-2" 
-        data-toggle="modal" data-target="#exampleModal"
+        data-toggle="modal" data-target="#exampleModal3"
         (click)="registerClick()"
         data-backdrop="static" data-keyboard="false">
         Register
     </button> 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xs" role="document">
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ModalTitle}}</h5>
-                <button type="button" class="close" 
-                data-dismiss="modal" aria-label="Close"
-                (click)="closeClick()" >
-                <span aria-hidden="true">&times;</span>
-                </button>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel2">{{ModalTitle}}</h5>
+                    <button type="button" class="close" 
+                    data-dismiss="modal" aria-label="Close"
+                    (click)="closeClick()" >
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <app-login [login]="login" *ngIf="ActivateLoginForm"></app-login>           
+                </div>           
             </div>
-            <div class="modal-body">
-                <app-login [login]="login" *ngIf="ActivateLoginForm"></app-login>
-                <app-register [register]="register" *ngIf="ActivateRegisterForm"></app-register>
-                
-            </div>
-            
         </div>
     </div>
-</div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xs" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel3">{{ModalTitle}}</h5>
+                    <button type="button" class="close" 
+                    data-dismiss="modal" aria-label="Close"
+                    (click)="closeClick()" >
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <app-register [register]="register" *ngIf="ActivateRegisterForm"></app-register>              
+                </div>           
+            </div>
+        </div>
+    </div>
