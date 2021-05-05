@@ -113,7 +113,7 @@ namespace SmartWork.Controllers
             {
                 return NotFound();
             }
-            UserInfoViewModel model = new UserInfoViewModel
+            EditUserViewModel model = new EditUserViewModel
             {
                 Id = user.Id,
                 Email = user.Email,
@@ -125,7 +125,7 @@ namespace SmartWork.Controllers
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(UserInfoViewModel model)
+        public async Task<IActionResult> Edit(EditUserViewModel model)
         {
             if (ModelState.IsValid)
             {

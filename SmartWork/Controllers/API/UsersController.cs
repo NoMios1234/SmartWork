@@ -1,13 +1,18 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Owin.Security;
 using SmartWork.Models;
 using SmartWork.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SmartWork.Controllers.API
@@ -19,13 +24,16 @@ namespace SmartWork.Controllers.API
         private readonly ApplicationContext db;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly ApplicationSettings _appSettings;
 
 
-        public UsersController(UserManager<User> userManager, SignInManager<User> signInManager, ApplicationContext context)
+        public UsersController(UserManager<User> userManager, SignInManager<User> signInManager, ApplicationContext context,
+            IOptions<ApplicationSettings> appSettings)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             db = context;
+            _appSettings = appSettings.Value;
         }
 
         [HttpGet]
@@ -118,34 +126,49 @@ namespace SmartWork.Controllers.API
             return Ok(user);
         }
 
+        // POST api/users/Login
         [Route("Login")]
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (ModelState.IsValid)
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
-                var result =
-                    await _signInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
-                if (result.Succeeded)
+                var tokenDescriptor = new SecurityTokenDescriptor
                 {
-                    await _signInManager.SignInAsync(db.Users.Where(u => u.Email == model.Email).FirstOrDefault(), true);
-                    return new ObjectResult(true);
-                }
-                else
-                {
-                    return BadRequest();
-                }
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserId",user.Id.ToString())
+                    }),
+                    Expires = DateTime.UtcNow.AddDays(1),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+                var token = tokenHandler.WriteToken(securityToken);
+                return Ok(new { token });
             }
-            return BadRequest();
+            else
+                return BadRequest(new { message = "Username or password is incorrect." });
+
         }
 
-        [Route("IsAuthorized")]
+        //GET : /api/users/Profile
+        [Route("Profile")]
         [HttpGet]
-        public ObjectResult IsAuthorized()
-       {
-
-            return new ObjectResult(User.Identity.IsAuthenticated);
-    
+        [Authorize]
+        public async Task<Object> GetUserProfile()
+        {
+            string userId = User.Claims.First(c => c.Type == "UserId").Value;
+            var user = await _userManager.FindByIdAsync(userId);
+            return new
+            {
+                user.Email,
+                user.FirstName,
+                user.SecondName,
+                user.Patronymic,
+                user.PhoneNumber
+            };
         }
 
         [Route("Logout")]
