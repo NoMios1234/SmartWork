@@ -1,5 +1,0 @@
-div.form-froup.required>label:first-child:after{
-    content:'*';
-    color: red;
-    padding-left: 5px;
-}

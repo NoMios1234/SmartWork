@@ -10,16 +10,6 @@ input.form-control,input.form-control:focus{
 
 }
 
-input::placeholder {
-    color: #fff;
-    opacity: 0.5;
-}
-
-small{
-    color: #fff;
-    opacity: 0.5;
-}
-
 input.form-control:focus{
     box-shadow: none;
 }

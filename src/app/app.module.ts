@@ -1,9 +1,7 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common'
 import { BrowserModule } from '@angular/platform-browser';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,15 +13,16 @@ import { OfficeComponent } from './office/office.component';
 import { ShowOfficeComponent } from './office/show-office/show-office.component';
 import { AddEditOfficeComponent } from './office/add-edit-office/add-edit-office.component';
 import { SharedService } from 'src/app/shared/shared.service';
-import { AuthorizationComponent } from './authorization/authorization.component';
-import { LoginComponent } from './authorization/login/login.component';
-import { RegisterComponent } from './authorization/register/register.component';
-import { ProfileComponent } from './authorization/profile/profile.component';
-import { LoginMenuComponent } from './authorization/login-menu/login-menu.component';
+
 import { UserComponent } from './user/user.component';
 import { RegistrationComponent } from './user/registration/registration.component';
+import { LoginComponent } from './user/login/login.component';
 import { UserService } from './shared/user.service';
 import { ToastrModule } from 'ngx-toastr';
+import { AuthInterceptor } from './auth/auth.interceptor';
+import { CommonModule } from '@angular/common';
+import { HomeComponent } from './home/home.component';
+
 
 @NgModule({
   declarations: [
@@ -34,28 +33,29 @@ import { ToastrModule } from 'ngx-toastr';
     OfficeComponent,
     ShowOfficeComponent,
     AddEditOfficeComponent,
-    AuthorizationComponent,
     LoginComponent,
-    RegisterComponent,
-    ProfileComponent,
-    LoginMenuComponent,
     UserComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
     ReactiveFormsModule,
-    NgbModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       progressBar: true
     }),
+    FormsModule
   ],
-  providers: [SharedService, UserService],
+  providers: [SharedService, UserService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
