@@ -1,39 +1,8 @@
+<header>
+  <app-navbar></app-navbar>  
+</header>
 <main role="main">
-  <section class="jumbotron text-center">
-    <div class="container">
-      <h1 class="jumbotron-heading">SmartWork purposes</h1>
-      <p class="lead text-muted">
-        Coworking is a model of organizing the work of people with different types of employment in a single workspace.The goal of the SmartWork project is to flexibly customize the coworking process. We will be glad to new partners and representatives of coworking zones for cooperation
-      </p>
-      <app-user></app-user>   
-    </div>
-  </section>
-  <div class="container shadow-lg p-3 mb-5 bg-white rounded">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm"> 
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="company">Companies</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="office">Offices</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Dropdown link
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </div>
+  <app-user *ngIf="UserForm"></app-user>
 </main>
+<router-outlet  *ngIf="!UserForm"></router-outlet>
 
