@@ -6,6 +6,7 @@ import { CompanyComponent } from './company/company.component';
 import { HomeComponent } from './home/home.component';
 import { OfficeComponent } from './office/office.component';
 import { LoginComponent } from './user/login/login.component';
+import { ProfileComponent } from './user/profile/profile.component';
 import { RegistrationComponent } from './user/registration/registration.component';
 import { UserComponent } from './user/user.component';
 
@@ -18,10 +19,11 @@ const routes: Routes = [
     path: 'user', component: UserComponent,
     children: [
       { path: 'registration', component: RegistrationComponent },
-      { path: 'login', component: LoginComponent }
+      { path: 'login', component: LoginComponent }     
     ]
   },
-  {path:'home',component:HomeComponent, canActivate:[AuthGuard] }
+  { path:'home', component: HomeComponent, canActivate:[AuthGuard] },
+  { path: 'user/profile', component: ProfileComponent, canActivate:[AuthGuard] }
 ];
 
 @NgModule({

@@ -12,4 +12,8 @@ export class ShowOfficeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  addClick(){
+    
+  }
+
 }

@@ -23,6 +23,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { ProfileComponent } from './user/profile/profile.component';
+import { MenuComponent } from './menu/menu.component';
 
 
 @NgModule({
@@ -39,7 +41,9 @@ import { NavbarComponent } from './navbar/navbar.component';
     RegistrationComponent,
     LoginComponent,
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
+    ProfileComponent,
+    MenuComponent
   ],
   imports: [
     CommonModule,
