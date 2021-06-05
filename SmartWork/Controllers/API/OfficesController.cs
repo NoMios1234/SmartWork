@@ -128,30 +128,25 @@ namespace SmartWork.Controllers.API
             return await db.Room.Where(r => r.OfficeId == id).ToListAsync();
         }
 
-        [HttpPost("/Offices/SaveFile/{id}")]
-        public async Task<IActionResult> SaveFile(int id)
+        [Route("SaveFile")]
+        [HttpPost]
+        public JsonResult SaveFile()
         {
             try
             {
-                Office office = await db.Office.FirstOrDefaultAsync(o => o.Id == id);
                 var httpRequest = Request.Form;
                 var postedFile = httpRequest.Files[0];
                 string filename = postedFile.FileName;
-                string newFileName = $"{office.Id}_{office.OfficeName}.png";
-                var physicalPath = _env.ContentRootPath + "/Photos/Office/" + newFileName;
+                var physicalPath = _env.ContentRootPath + "/Photos/Office/" + filename;
 
                 using (var stream = new FileStream(physicalPath, FileMode.Create))
                 {
-                    await postedFile.CopyToAsync(stream);
+                    postedFile.CopyTo(stream);
                 }
-                office.PhotoFileName = newFileName;
-                db.Entry(office).State = EntityState.Modified;
-                db.Office.Update(office);
-                await db.SaveChangesAsync();
 
-                return new JsonResult(newFileName);
+                return new JsonResult(filename);
             }
-            catch
+            catch (Exception)
             {
                 return new JsonResult("default_office_image.png");
             }

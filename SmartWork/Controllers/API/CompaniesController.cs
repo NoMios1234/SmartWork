@@ -135,7 +135,7 @@ namespace SmartWork.Controllers.API
                 var httpRequest = Request.Form;
                 var postedFile = httpRequest.Files[0];
                 string filename = postedFile.FileName;
-                var physicalPath = _env.WebRootPath + "/Photos/Company/" + filename;
+                var physicalPath = _env.ContentRootPath + "/Photos/Company/" + filename;
 
                 using (var stream = new FileStream(physicalPath, FileMode.Create))
                 {
