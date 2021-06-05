@@ -36,7 +36,6 @@ import { MenuComponent } from './menu/menu.component';
     OfficeComponent,
     ShowOfficeComponent,
     AddEditOfficeComponent,
-    LoginComponent,
     UserComponent,
     RegistrationComponent,
     LoginComponent,
