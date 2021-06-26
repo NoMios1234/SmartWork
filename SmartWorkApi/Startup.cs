@@ -62,7 +62,7 @@ namespace SmartWorkServerApi
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartWorkServerApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartWorkApi", Version = "v1" });
             });
 
             //JSON Serializer
