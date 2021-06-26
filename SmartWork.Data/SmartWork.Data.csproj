@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Photos\Company\city.png" />
+    <None Remove="Photos\Company\company.png" />
+    <None Remove="Photos\Company\default_company_image.png" />
+    <None Remove="Photos\Company\isometric-3d-icon-city-urban-area-with-a-lot-of-houses_70347-3522.jpg" />
+    <None Remove="Photos\Company\modern-buildings-icon-city-icon-colorful-round-business-center-vector-illustration-54075720.jpg" />
+    <None Remove="Photos\Office\default_office_image.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Photos\Company\city.png" />
+    <Content Include="Photos\Company\company.png" />
+    <Content Include="Photos\Company\default_company_image.png" />
+    <Content Include="Photos\Company\isometric-3d-icon-city-urban-area-with-a-lot-of-houses_70347-3522.jpg" />
+    <Content Include="Photos\Company\modern-buildings-icon-city-icon-colorful-round-business-center-vector-illustration-54075720.jpg" />
+    <Content Include="Photos\Office\default_office_image.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="5.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.7" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartWork.Core\SmartWork.Core.csproj" />
+  </ItemGroup>
+
+</Project>

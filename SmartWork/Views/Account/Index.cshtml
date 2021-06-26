@@ -1,0 +1,38 @@
+﻿@model SmartWork.Core.Models.User
+
+@{ ViewBag.Title = "User profile"; }
+
+<div class="card-body">
+    <div class="row">
+        <div class="col-sm-3">
+            <h6 class="mb-0">Full Name</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">
+            @Model.FirstName
+            @Model.SecondName
+            @Model.Patronymic
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <h6 class="mb-0">Email</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">
+            @Model.Email
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <h6 class="mb-0">Phone number</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">
+            @Model.PhoneNumber
+        </div>
+    </div>
+</div>
+
+<a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+<a class="btn btn-sm btn-primary" asp-action="ChangePassword" asp-route-id="@Model.Id">Change password</a>
+<a class="btn btn-sm btn-primary" asp-controller="QRCoder" asp-action="">Create QR code</a>
