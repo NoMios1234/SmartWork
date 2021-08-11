@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using SmartWork.Core.Models;
+using SmartWork.Core.Entities;
 using System;
 using System.Threading.Tasks;
 

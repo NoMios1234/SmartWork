@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SmartWork.Core.Models;
+using SmartWork.Core.Entities;
+using SmartWork.Core.Entities;
 using SmartWork.Data.Data;
 using SmartWork.ViewModels.CompanyViewModel;
 using System.Collections.Generic;

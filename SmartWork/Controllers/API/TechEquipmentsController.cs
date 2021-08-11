@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartWork.Data.Data;
-using SmartWork.Core.Models;
+using SmartWork.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SmartWork.Core.Entities;
 
 namespace SmartWork.Controllers.API
 {

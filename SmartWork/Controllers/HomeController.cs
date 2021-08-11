@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SmartWork.Core.Entities;
 using SmartWork.Core.Models;
 using System.Diagnostics;
 
@@ -13,6 +15,7 @@ namespace SmartWork.Controllers
         {
             _logger = logger;
         }
+        [Authorize]
         public IActionResult Index()
         {
             return View();

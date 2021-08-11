@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using SmartWork.Core.Models;
+using SmartWork.Core.Entities;
 using System.Threading.Tasks;
 
 namespace SmartWork

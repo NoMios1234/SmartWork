@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using QRCoder;
-using SmartWork.Core.Models;
+using SmartWork.Core.Entities;
 using SmartWork.Data.Data;
 using System;
 using System.Drawing;

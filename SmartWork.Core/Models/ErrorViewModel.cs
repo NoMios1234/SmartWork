@@ -1,5 +1,3 @@
-using System;
-
 namespace SmartWork.Core.Models
 {
     public class ErrorViewModel

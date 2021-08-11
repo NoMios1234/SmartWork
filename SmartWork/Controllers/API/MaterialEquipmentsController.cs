@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SmartWork.Core.Models;
+using SmartWork.Core.Entities;
 using SmartWork.Data.Data;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SmartWork.Core.Models;
+using SmartWork.Core.Entities;
+using SmartWork.Core.Entities;
 using SmartWork.ViewModels;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -77,7 +78,6 @@ namespace SmartWork.Controllers
                     // проверяем, принадлежит ли URL приложению
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
-                        bool temp = User.Identity.IsAuthenticated;
                         return Redirect(model.ReturnUrl);
                     }
                     else

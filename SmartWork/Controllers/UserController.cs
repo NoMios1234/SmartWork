@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SmartWork.Core.Models;
+using SmartWork.Core.Entities;
+using SmartWork.Core.Entities;
 using SmartWork.ViewModels;
 using System.Linq;
 using System.Threading.Tasks;
