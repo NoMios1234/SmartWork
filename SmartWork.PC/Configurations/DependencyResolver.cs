@@ -52,6 +52,9 @@ namespace SmartWork.PC.Configurations
             //services.AddTransient<IMaterialService<ElectronicBook>, MaterialService<ElectronicBook>>();
             //services.AddTransient<IUserCourseService, UserCourseService>();
             services.AddTransient<ICompanyService, CompanyService>();
+            services.AddTransient<IOfficeService, OfficeService>();
+            services.AddTransient<ISubscribeDetailsService, SubscribeDetailsService>();
+            services.AddTransient<ISubscribeService, SubscribeService>();
             //services.AddTransient<IUserSkillService, UserSkillService>();
         }
     }

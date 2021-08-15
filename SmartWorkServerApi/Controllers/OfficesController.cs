@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using SmartWork.Core.Abstractions.Services;
 using SmartWork.Core.Entities;
-using SmartWork.Data.AppContext;
-using System;
+using SmartWork.Core.Specifications;
+using SmartWork.Core.ViewModels.OfficeViewModels;
+using SmartWork.Core.ViewModels.SubscribeDetailViewModel;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SmartWorkServerApi.Controllers
@@ -15,129 +13,75 @@ namespace SmartWorkServerApi.Controllers
     [ApiController]
     public class OfficesController : ControllerBase
     {
-        private readonly ApplicationContext db;
-        private readonly IWebHostEnvironment _env;
-        public OfficesController(ApplicationContext context, IWebHostEnvironment env)
+        private readonly IOfficeService _officeService;
+
+        public OfficesController(IOfficeService officeService)
         {
-            db = context;
-            _env = env;
-        }
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Office>>> Get()
-        {
-            List<Equipment> equipments = await db.Equipment.ToListAsync();
-            foreach (var equipment in equipments)
-            {
-                equipment.MaterialEquipments = await db.MaterialEquipment.Where(eq => eq.EquipmentId == equipment.Id).ToListAsync();
-                equipment.TechnicalEquipments = await db.TechnicalEquipment.Where(eq => eq.EquipmentId == equipment.Id).ToListAsync();
-            }
-            List<Room> rooms = await db.Room.ToListAsync();
-            foreach (var room in rooms)
-            {
-                room.Equipments = equipments.Where(eq => eq.RoomId == room.Id).ToList();
-            }
-            List<Office> offices = await db.Office.ToListAsync();
-            foreach(var office in offices)
-            {
-                office.Rooms = await db.Room.Where(r => r.OfficeId == office.Id).ToListAsync();
-            }
-            return await db.Office.ToListAsync();
+            _officeService = officeService;
         }
 
-        // GET api/offices/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Office>> Get(int id)
+        // GET: api/Offices/GetOffices
+        [HttpGet("GetOffices")]
+        public Task<IEnumerable<OfficeViewModel>> GetOffices()
         {
-            List<Equipment> equipments = await db.Equipment.ToListAsync();
-            foreach (var equipment in equipments)
-            {
-                equipment.MaterialEquipments = await db.MaterialEquipment.Where(eq => eq.EquipmentId == equipment.Id).ToListAsync();
-                equipment.TechnicalEquipments = await db.TechnicalEquipment.Where(eq => eq.EquipmentId == equipment.Id).ToListAsync();
-            }
-            List<Room> rooms = await db.Room.ToListAsync();
-            foreach (var room in rooms)
-            {
-                room.Equipments = equipments.Where(eq => eq.RoomId == room.Id).ToList();
-            }
-            Office office = await db.Office.FirstOrDefaultAsync(o => o.Id == id);
-            office.Rooms = await db.Room.Where(r => r.OfficeId == office.Id).ToListAsync();
-            return new ObjectResult(office);
+            return _officeService.GetOfficesAsync(new Specification<Office>(
+                o => o.Id != -1));
         }
 
-        // POST api/offices
-        [HttpPost]
-        public async Task<ActionResult<Office>> Post(Office office)
+        // POST: api/Offices/GetOffice/5
+        [HttpPost("GetOffice/{id}")]
+        public Task<OfficeViewModel> GetOffice(int id)
         {
-            if (office == null)
-            {
-                return BadRequest();
-            }
-
-            db.Office.Add(office);
-            await db.SaveChangesAsync();
-            return Ok(office);
+            return _officeService.FindOfficeAsync(id);
         }
 
-        // PUT api/offices/
-        [HttpPut]
-        public async Task<ActionResult<Office>> Put(Office office)
+        // POST: api/Offices/GetCompanyOffices/5
+        [HttpPost("GetCompanyOffices/{id}")]
+        public Task<IEnumerable<OfficeViewModel>> GetCompanyOffices(int id)
         {
-            if (office == null)
-            {
-                return BadRequest();
-            }
-            if (!db.Office.Any(o => o.Id == office.Id))
-            {
-                return NotFound();
-            }
-
-            db.Update(office);
-            await db.SaveChangesAsync();
-            return Ok(office);
+            return _officeService.GetCompanyOfficesAsync(id);
+        }       
+        
+        // POST: api/Offices/GetCompanyOffices/5
+        [HttpPost("GetOfficeSubscribeDetails/{id}")]
+        public Task<IEnumerable<SubscribeDetailViewModel>> GetOfficeSubscribeDetails(int id)
+        {
+            return _officeService.GetOfficeSubscribeDetailsAsync(id);
         }
 
-        // DELETE api/offices/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Office>> Delete(int id)
+        // POST: api/Offices/AddOffice
+        [HttpPost("AddOffice")]
+        public Task<ActionResult> AddOffice(AddOfficeViewModel model)
         {
-            Office Office = db.Office.FirstOrDefault(o => o.Id == id);
-            if (Office == null)
-            {
-                return NotFound();
-            }
-            db.Office.Remove(Office);
-            await db.SaveChangesAsync();
-            return Ok(Office);
+            return _officeService.AddOfficeAsync(model);
         }
 
-        [HttpGet("GetRoomsByOfficeId/{id}")]
-        public async Task<ActionResult<IEnumerable<Room>>> GetRoomsByOfficeId(int id)
+        // POST: api/Offices/SubscribeUser
+        [HttpPost("SubscribeUser")]
+        public Task<ActionResult> SubscribeUserToOffice(string userId, int subscribeDetailsId)
         {
-            return await db.Room.Where(r => r.OfficeId == id).ToListAsync();
+            return _officeService.SubscribeUserToOfficeAsync(userId, subscribeDetailsId);
         }
 
-        [Route("SaveFile")]
-        [HttpPost]
+        // PUT: api/Offices/AddOffice
+        [HttpPut("UpdateOffice")]
+        public Task<ActionResult> UpdateOffice(UpdateOfficeViewModel model)
+        {
+            return _officeService.UpdateOfficeAsync(model);
+        }
+
+        // DELETE: api/Offices/DeleteOffice
+        [HttpDelete("DeleteOffice/{id}")]
+        public Task<ActionResult> DeleteOfficeAsync(int id)
+        {
+            return _officeService.DeleteOfficeAsync(id);
+        }
+
+        // POST: api/Offices/SaveFile
+        [HttpPost("SaveFile")]
         public JsonResult SaveFile()
         {
-            try
-            {
-                var httpRequest = Request.Form;
-                var postedFile = httpRequest.Files[0];
-                string filename = postedFile.FileName;
-                var physicalPath = _env.ContentRootPath + "/Photos/Office/" + filename;
-
-                using (var stream = new FileStream(physicalPath, FileMode.Create))
-                {
-                    postedFile.CopyTo(stream);
-                }
-
-                return new JsonResult(filename);
-            }
-            catch (Exception)
-            {
-                return new JsonResult("default_office_image.png");
-            }
+            return new JsonResult(_officeService.SaveFile(Request));
         }
     }
 }

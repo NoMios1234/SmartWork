@@ -8,6 +8,7 @@ using SmartWork.Core.Abstractions.Services;
 using SmartWork.Core.Entities;
 using SmartWork.Core.Specifications;
 using SmartWork.Core.ViewModels.CompanyViewModels;
+using SmartWork.Core.ViewModels.OfficeViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,16 +22,18 @@ namespace SmartWork.BLL.Services
         private readonly IRepository<Company> _repository;
         private readonly IWebHostEnvironment _env;
         private readonly ILogger<CompanyService> _logger;
+        private readonly IOfficeService _officeService;
 
         // CONSTANTS
         const string NULL_RESULT = "object not found in database";
 
         public CompanyService(IRepository<Company> repository, IWebHostEnvironment env,
-            ILogger<CompanyService> logger)
+            ILogger<CompanyService> logger, IOfficeService officeService)
         {
             _repository = repository;
             _env = env;
             _logger = logger;
+            _officeService = officeService;
         }
 
         // GET Companies
@@ -41,9 +44,9 @@ namespace SmartWork.BLL.Services
         }
 
         // GET CompanyOffices
-        public Task<ActionResult> GetCompanyOfficesAsync(int id)
+        public async Task<IEnumerable<OfficeViewModel>> GetCompanyOfficesAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _officeService.GetCompanyOfficesAsync(id);
         }
 
         // ADD Company
