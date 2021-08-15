@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
 using SmartWork.Core.Entities;
 using SmartWork.Core.Entities;
-using SmartWork.Data.Data;
+using SmartWork.Data.AppContext;
 using System.IO;
 
 namespace SmartWork

@@ -8,7 +8,7 @@ namespace SmartWork.Data.AppContext
 {
     public class ApplicationContextFactory : IDesignTimeDbContextFactory<ApplicationContext>
     {
-        const string PROJECT_NAME = "SmartWork";
+        const string PROJECT_NAME = "SmartWork.PC";
         const string APP_SETTINGS = "appsettings.json";
         const string CONNECTION_STRING_NAME = "ConnectionString";
         const string MIGRATIONS_HISTORY_TABLE_NAME = "Migrations";

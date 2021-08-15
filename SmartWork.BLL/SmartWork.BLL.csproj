@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SmartWork.Core\SmartWork.Core.csproj" />
+    <ProjectReference Include="..\SmartWork.Data\SmartWork.Data.csproj" />
   </ItemGroup>
 
 </Project>

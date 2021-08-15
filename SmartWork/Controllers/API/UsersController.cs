@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartWork.Core.Entities;
-using SmartWork.Data.Data;
+using SmartWork.Data.AppContext;
 using SmartWork.ViewModels;
 using System.Collections.Generic;
 using System.Linq;

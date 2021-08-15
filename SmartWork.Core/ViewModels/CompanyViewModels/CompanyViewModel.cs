@@ -4,6 +4,8 @@ namespace SmartWork.Core.ViewModels.CompanyViewModels
 {
     public class CompanyViewModel
     {
+        public int Id { get; set; }
+
         [Display(Name = "Company name")]
         public string CompanyName { get; set; }
 

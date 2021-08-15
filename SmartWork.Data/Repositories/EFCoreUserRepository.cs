@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EducationPortal.DAL.Repositories
+namespace SmartWork.Data.Repositories
 {
     public class EFCoreUserRepository<TEntity> : IUserRepository<TEntity>
         where TEntity : IdentityUser

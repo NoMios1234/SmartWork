@@ -1,8 +1,10 @@
-﻿using EducationPortal.DAL.Repositories;
+﻿
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SmartWork.BLL.Services;
 using SmartWork.Core.Abstractions.Repositories;
+using SmartWork.Core.Abstractions.Services;
 using SmartWork.Core.Entities;
 using SmartWork.Data.AppContext;
 using SmartWork.Data.Repositories;
@@ -49,7 +51,7 @@ namespace SmartWork.PC.Configurations
             //services.AddTransient<IMaterialService<VideoMaterial>, MaterialService<VideoMaterial>>();
             //services.AddTransient<IMaterialService<ElectronicBook>, MaterialService<ElectronicBook>>();
             //services.AddTransient<IUserCourseService, UserCourseService>();
-            //services.AddTransient<ICourseService, CourseService>();
+            services.AddTransient<ICompanyService, CompanyService>();
             //services.AddTransient<IUserSkillService, UserSkillService>();
         }
     }

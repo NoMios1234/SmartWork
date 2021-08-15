@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SmartWork.Core.Entities;
-using System.Linq;
+using System.Reflection;
 
 namespace SmartWork.Data.AppContext
 {
@@ -12,7 +12,18 @@ namespace SmartWork.Data.AppContext
         {
 
         }
-    
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }
+
         public DbSet<Company> Company { get; set; }
         public DbSet<Office> Office { get; set; }
         public DbSet<Room> Room { get; set; }

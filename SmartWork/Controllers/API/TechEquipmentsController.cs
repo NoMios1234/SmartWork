@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SmartWork.Data.Data;
+using SmartWork.Data.AppContext;
 using SmartWork.Core.Entities;
 using System;
 using System.Collections.Generic;

@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartWork.Core.Entities;
-using SmartWork.Data.Data;
-using System;
+using SmartWork.Data.AppContext;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,17 +25,6 @@ namespace SmartWorkServerApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Room>>> Get()
         {
-            List<Equipment> equipments = await db.Equipment.ToListAsync();
-            foreach (var equipment in equipments)
-            {
-                equipment.MaterialEquipments = await db.MaterialEquipment.Where(eq => eq.EquipmentId == equipment.Id).ToListAsync();
-                equipment.TechnicalEquipments = await db.TechnicalEquipment.Where(eq => eq.EquipmentId == equipment.Id).ToListAsync();
-            }
-            List<Room> rooms = await db.Room.ToListAsync();
-            foreach (var room in rooms)
-            {             
-                room.Equipments = equipments.Where(eq => eq.RoomId == room.Id).ToList();  
-            }
             return await db.Room.ToListAsync();
         }
 
@@ -45,16 +32,9 @@ namespace SmartWorkServerApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Room>> Get(int id)
         {
-            List<Equipment> equipments = await db.Equipment.ToListAsync();
-            foreach (var equipment in equipments)
-            {
-                equipment.MaterialEquipments = await db.MaterialEquipment.Where(eq => eq.EquipmentId == equipment.Id).ToListAsync();
-                equipment.TechnicalEquipments = await db.TechnicalEquipment.Where(eq => eq.EquipmentId == equipment.Id).ToListAsync();
-            }
             Room room = await db.Room.FirstOrDefaultAsync(x => x.Id == id);
             if (room == null)
                 return NotFound();
-            room.Equipments = equipments.Where(eq => eq.RoomId == room.Id).ToList();
             return new ObjectResult(room);
         }
 
