@@ -1,11 +1,11 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SmartWork.BLL.Services;
 using SmartWork.Core.Abstractions.Repositories;
 using SmartWork.Core.Abstractions.Services;
 using SmartWork.Core.Entities;
+using SmartWork.Core.Models;
 using SmartWork.Data.AppContext;
 using SmartWork.Data.Repositories;
 

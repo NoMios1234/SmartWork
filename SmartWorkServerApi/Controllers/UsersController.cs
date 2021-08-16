@@ -1,19 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
+using SmartWork.Core.Abstractions.Services;
 using SmartWork.Core.Entities;
+using SmartWork.Core.Specifications.UserSpecification;
 using SmartWork.Core.ViewModels;
-using SmartWork.Data.AppContext;
-using SmartWork.PC;
-using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SmartWorkServerApi.Controllers
@@ -22,162 +13,74 @@ namespace SmartWorkServerApi.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly ApplicationContext db;
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly ApplicationSettings _appSettings;
+        private readonly IUserService _userService;
 
-
-        public UsersController(UserManager<User> userManager, SignInManager<User> signInManager, ApplicationContext context,
-            IOptions<ApplicationSettings> appSettings)
+        public UsersController(IUserService userService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            db = context;
-            _appSettings = appSettings.Value;
+            _userService = userService;
         }
 
+        // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> Get()
+        public async Task<IEnumerable<User>> GetUsers()
         {
-            return await _userManager.Users.ToListAsync();
+            return await _userService.GetUsersAsync(new UserSpecification<User>(u => u.Id != ""));
         }
 
-        // GET users/5
-        [HttpGet("GetUserById/{id}")]
-        public async Task<ActionResult<User>> GetUserById(string id)
+        // GET: api/Users/Profile
+        [HttpGet("Profile")]
+        public Task<UserInfoViewModel> GetUserProfile()
         {
-            User user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id.Equals(id));
-            if (user == null)
-                return NotFound();
-            return new ObjectResult(user);
+            return _userService.GetUserProfileAsync(this.User);
         }
 
-        // GET api/users/GetUserSubscribes/5
-        [HttpGet("GetUserSubscribes/{id}")]
-        public async Task<ActionResult<User>> GetUserSubscribes(string id)
+        // POST: api/Users/5
+        [HttpPost("{id}")]
+        public Task<User> GetUserById(string id)
         {
-            User user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id.Equals(id));
-            if (user == null)
-                return NotFound();
-            List<Subscribe> subscribes = await db.Subscribe.Where(s => s.UserId == id).ToListAsync();
-            return new ObjectResult(subscribes);
+            return _userService.GetUserByIdAsync(id);
         }
 
-        // POST api/users/register
-        [Route("Register")]
-        [HttpPost]
-        public async Task<ActionResult<User>> UserRegister(CreateUserViewModel model)
+        // POST: api/Users/Subscribes/5
+        [HttpPost("Subscribes/{id}")]
+        public Task<IEnumerable<Subscribe>> GetUserSubscribes(string id)
         {
-            var user = new User 
-            {
-                Email = model.Email,
-                UserName = model.Email,
-                FirstName = model.FirstName,
-                SecondName = model.SecondName,
-                Patronymic = model.Patronymic,
-                PhoneNumber = model.PhoneNumber
-            };
-            try
-            {
-                var result = await _userManager.CreateAsync(user, model.Password);
-                await _userManager.AddToRoleAsync(user, "user");
-                return Ok(result);
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex);
-            }
+            return _userService.GetUserSubscribesAsync(id);
         }
 
-        // POST api/users/update
-        [Route("Update")]
-        [HttpPut]
-        public async Task<ActionResult<User>> UserUpdate(EditUserViewModel model)
+        // POST: api/Users/SignIn
+        [HttpPost("SignIn")]
+        public async Task<IActionResult> SignIn(LoginViewModel model)
         {
-            User user = await _userManager.FindByIdAsync(model.Id);
-
-            user.Email = model.Email;
-            user.FirstName = model.FirstName;
-            user.SecondName = model.SecondName;
-            user.Patronymic = model.Patronymic;
-            user.PhoneNumber = model.PhoneNumber;
-
-            try
-            {
-                var result = await _userManager.UpdateAsync(user);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
+            return await _userService.SignInAsync(model);
         }
 
-        // DELETE api/users/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> Delete(string id)
+        // POST: api/Users/SingUp
+        [HttpPost("SingUp")]
+        public Task<IdentityResult> SingUp(CreateUserViewModel model)
         {
-            User user = await _userManager.FindByIdAsync(id);
-            if (user != null)
-            {
-                IdentityResult result = await _userManager.DeleteAsync(user);
-                return Ok(user);
-            }
-            return BadRequest();
+            return _userService.SingUpAsync(model);
         }
 
-        // POST api/users/Login
-        [Route("Login")]
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        // POST: api/Users/Logout
+        [HttpPost("Logout")]
+        public Task<ActionResult> Logout()
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
-            {
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim("UserId",user.Id.ToString())
-                    }),
-                    Expires = DateTime.UtcNow.AddDays(1),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
-                };
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-                var token = tokenHandler.WriteToken(securityToken);
-                return Ok(new { token });
-            }
-            else
-                return BadRequest(new { message = "Username or password is incorrect." });
+            return _userService.Logout();
         }
 
-        //GET : /api/users/Profile
-        [Route("Profile")]
-        [HttpGet]
-        [Authorize]
-        public async Task<Object> GetUserProfile()
+        // PUT: api/Users/Update
+        [HttpPut("Update")]
+        public Task<IdentityResult> Update(EditUserViewModel model)
         {
-            string userId = User.Claims.First(c => c.Type == "UserId").Value;
-            var user = await _userManager.FindByIdAsync(userId);
-            return new
-            {
-                user.Email,
-                user.FirstName,
-                user.SecondName,
-                user.Patronymic,
-                user.PhoneNumber
-            };
+            return _userService.UpdateAsync(model);
         }
 
-        [Route("Logout")]
-        [HttpPost]
-        public async Task<ObjectResult> Logout()
+        // DELETE: api/Users/Remove/5
+        [HttpDelete("Remove/{id}")]
+        public Task<IdentityResult> Remove(string id)
         {
-            // удаляем аутентификационные куки
-            await _signInManager.SignOutAsync();
-            return new ObjectResult(true);
-        }
+            return _userService.RemoveAsync(id);
+        } 
     }
 }

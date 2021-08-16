@@ -7,6 +7,7 @@ using SmartWork.Core.Entities;
 using SmartWork.Core.Specifications;
 using SmartWork.Core.ViewModels.SubscribeViewModels;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SmartWork.BLL.Services
@@ -53,6 +54,11 @@ namespace SmartWork.BLL.Services
                 _logger.LogError("SubscribeService: SubscribeUserAsync\n" + ex.Message);
                 return new BadRequestObjectResult(ex.Message);
             }
+        }
+
+        public Task<IEnumerable<Subscribe>> UserSubscribesAsync(string userId)
+        {
+            return _repository.GetAsync(new Specification<Subscribe>(s => s.UserId == userId));
         }
     }
 }

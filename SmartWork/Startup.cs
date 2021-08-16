@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
 using SmartWork.Core.Entities;
-using SmartWork.Core.Entities;
 using SmartWork.Data.AppContext;
 using System.IO;
 

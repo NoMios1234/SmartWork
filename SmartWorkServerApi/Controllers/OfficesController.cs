@@ -5,6 +5,7 @@ using SmartWork.Core.Specifications;
 using SmartWork.Core.ViewModels.OfficeViewModels;
 using SmartWork.Core.ViewModels.SubscribeDetailViewModel;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SmartWorkServerApi.Controllers
@@ -51,9 +52,12 @@ namespace SmartWorkServerApi.Controllers
 
         // POST: api/Offices/AddOffice
         [HttpPost("AddOffice")]
-        public Task<ActionResult> AddOffice(AddOfficeViewModel model)
+        public async Task<ActionResult> AddOffice(AddOfficeViewModel model)
         {
-            return _officeService.AddOfficeAsync(model);
+            if (ModelState.IsValid)
+                return await _officeService.AddOfficeAsync(model);
+            else
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors));
         }
 
         // POST: api/Offices/SubscribeUser
@@ -65,9 +69,12 @@ namespace SmartWorkServerApi.Controllers
 
         // PUT: api/Offices/AddOffice
         [HttpPut("UpdateOffice")]
-        public Task<ActionResult> UpdateOffice(UpdateOfficeViewModel model)
+        public async Task<ActionResult> UpdateOffice(UpdateOfficeViewModel model)
         {
-            return _officeService.UpdateOfficeAsync(model);
+            if (ModelState.IsValid)
+                return await _officeService.UpdateOfficeAsync(model);
+            else
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors));
         }
 
         // DELETE: api/Offices/DeleteOffice

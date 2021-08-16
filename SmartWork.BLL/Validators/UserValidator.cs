@@ -7,9 +7,9 @@ namespace EducationPortal.BLL.Validators
     {
         public UserValidator()
         {
-            RuleFor(x => x.FirstName).NotEmpty().WithMessage("Please specify a first name");
-            RuleFor(x => x.SecondName).NotEmpty().WithMessage("Please specify a second name");
-            RuleFor(x => x.Patronymic).NotEmpty().WithMessage("Please specify a patronymic");
+            RuleFor(x => x.FirstName).NotEmpty().MaximumLength(128).Matches(@"^\D+$").WithMessage("Please specify a first name");
+            RuleFor(x => x.SecondName).NotEmpty().MaximumLength(128).Matches(@"^\D+$").WithMessage("Please specify a second name");
+            RuleFor(x => x.Patronymic).NotEmpty().MaximumLength(128).Matches(@"^\D+$").WithMessage("Please specify a patronymic");
             RuleFor(x => x.Email).EmailAddress();
         }
     }

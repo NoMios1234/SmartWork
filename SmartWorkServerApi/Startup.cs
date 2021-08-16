@@ -34,6 +34,7 @@ namespace SmartWorkServerApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // AddIdentity 
             services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 8;
@@ -48,9 +49,11 @@ namespace SmartWorkServerApi
             // Dependencies
             var resolver = new DependencyResolver(services);
 
+            // FluentValidation
             services.AddControllers()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserService>());
 
+            // Swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartWorkServerApi", Version = "v1" });

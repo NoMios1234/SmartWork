@@ -30,9 +30,12 @@ namespace SmartWorkServerApi.Controllers
 
         // POST: api/SubscribeDetails/AddSubscribeToOffice
         [HttpPost("AddSubscribeToOffice")]
-        public Task<ActionResult> AddSubscribeToOffice(AddSubscribeDetailViewModel model)
+        public async Task<ActionResult> AddSubscribeToOffice(AddSubscribeDetailViewModel model)
         {
-            return _subscribeDetailsService.AddSubscribeToOfficeAsync(model);
+            if (ModelState.IsValid)
+                return await _subscribeDetailsService.AddSubscribeToOfficeAsync(model);
+            else
+                return BadRequest(ModelState.Values.SelectMany(m => m.Errors));
         }
     }
 }

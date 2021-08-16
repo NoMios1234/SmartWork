@@ -1,4 +1,4 @@
-﻿namespace SmartWork.PC
+﻿namespace SmartWork.Core.Models
 {
     public class ApplicationSettings
     {
