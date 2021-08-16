@@ -1,0 +1,35 @@
+<div class="d-flex flex-row bd-highlight mb-3">
+    <div class="form-froup row">  
+        <label class="col-sm-3 col-form-label">Name</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" [(ngModel)]="OfficeName"
+            placeholder="Enter office name">
+        </div>
+
+        <label class="col-sm-3 col-form-label">Address</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" [(ngModel)]="OfficeAddress"
+            placeholder="Enter office address">
+        </div>
+
+        <label class="col-sm-3 col-form-label">Phone</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" [(ngModel)]="OfficePhoneNumber"
+            placeholder="Enter office phone number">
+        </div>
+    
+    </div>
+
+    <div class="ml-4 bd-highlight">
+        <img [src]=PhotoFilePath height="100%;" width="100%;">
+        <input type="file" name="uploadedFile" accept="image/x-png,image/gif,image/jpeg" (change)="uploadPhoto($event)" class="mt-2"/>       
+    </div>
+</div>  
+
+<button (click)="addOffice()" *ngIf="office.Id==0" class="btn btn-primary">
+    Add
+</button>
+
+<button (click)="updateOffice()" *ngIf="office.Id!=0" class="btn btn-primary">
+    Update
+</button>

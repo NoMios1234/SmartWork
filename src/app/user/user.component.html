@@ -1,0 +1,24 @@
+<section class="jumbotron text-center">
+  <div class="container">
+    <h1 class="jumbotron-heading">SmartWork purposes</h1>
+    <p class="lead text-muted">
+      Coworking is a model of organizing the work of people with different types of employment in a single workspace.The goal of the SmartWork project is to flexibly customize the coworking process. We will be glad to new partners and representatives of coworking zones for cooperation
+    </p>
+    <div class="wrapper">
+      <div class="wrapped-div">
+        <div class="tab-header">
+          <h2 routerLink='/user/login' routerLinkActive='active' (click)="login()">Sign In</h2>
+          <h2 routerLink='/user/registration' routerLinkActive='active' (click)="registration()">Sign Up</h2>
+        </div>
+        <div class="row">
+          <div class="col-md-10 offset-md-1">
+            <app-login *ngIf="LoginForm"></app-login>
+            <app-registration *ngIf="RegForm"></app-registration>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+

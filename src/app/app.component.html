@@ -1,0 +1,8 @@
+<header>
+  <app-navbar></app-navbar>  
+</header>
+<app-menu *ngIf="!UserForm"></app-menu>
+<main role="main">
+  <app-user *ngIf="UserForm"></app-user>
+</main>
+
