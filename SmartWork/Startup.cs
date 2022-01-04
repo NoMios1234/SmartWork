@@ -23,7 +23,7 @@ namespace SmartWork
 
         public void ConfigureServices(IServiceCollection services)
         {
-            const string projectName = "SmartWork.Core";
+            const string projectName = "SmartWork.PC";
             const string appSettings = "appsettings.json";
 
             var projectDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).FullName
@@ -35,7 +35,7 @@ namespace SmartWork
                 .Build();
 
             services.AddDbContext<ApplicationContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ConnectionString")));
+                options.UseSqlServer(configuration.GetConnectionString("ConnectionString")));
 
             services.AddIdentity<User, IdentityRole>(options =>
             {
